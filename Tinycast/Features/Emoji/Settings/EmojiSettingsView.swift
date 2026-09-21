@@ -16,7 +16,7 @@ struct EmojiSettingsView: View {
                         Text(tone.sample).tag(tone)
                     }
                 } label: {
-                    SettingsRowTitle(.emojiAppearance, "Emoji Skin Tone")
+                    SettingsRowTitle(.emojiAppearance, String(localized: "Emoji Skin Tone"))
                 }
                 .pickerStyle(.segmented)
             } header: {
@@ -34,7 +34,7 @@ private struct EmojiColumnCountPicker: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
-            SettingsRowTitle(.emojiAppearance, "Column Count")
+            SettingsRowTitle(.emojiAppearance, String(localized: "Column Count"))
 
             HStack(spacing: Theme.Spacing.xl) {
                 ForEach(EmojiGridColumns.allCases) { columns in

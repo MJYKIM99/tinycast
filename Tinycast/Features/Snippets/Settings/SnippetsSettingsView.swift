@@ -82,14 +82,14 @@ struct SnippetsSettingsView: View {
             LabeledContent {
                 Button("Add…") { editor = SnippetEditRequest(record: nil) }
             } label: {
-                SettingsRowTitle(.snippetsLibrary, "New Snippet")
+                SettingsRowTitle(.snippetsLibrary, String(localized: "New Snippet"))
             }
 
             LabeledContent {
                 Button("Open Folder", action: core.snippetCoordinator.revealSnippetsInFinder)
                     .accessibilityHint("Reveals this Tinycast channel’s snippets folder in Finder.")
             } label: {
-                SettingsRowTitle(.snippetsLibrary, "Snippets Folder")
+                SettingsRowTitle(.snippetsLibrary, String(localized: "Snippets Folder"))
                 Text("Plain Markdown files.")
             }
         } header: {

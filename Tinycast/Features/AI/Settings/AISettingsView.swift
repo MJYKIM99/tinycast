@@ -22,7 +22,7 @@ struct AISettingsView: View {
         return Form {
             Section {
                 Toggle(isOn: $appSettings.aiEnabled) {
-                    SettingsRowTitle(.aiAI, "Enable AI")
+                    SettingsRowTitle(.aiAI, String(localized: "Enable AI"))
                     Text("Nothing is loaded or sent while it is off.")
                 }
                 SettingsRow(
@@ -76,10 +76,10 @@ struct AISettingsView: View {
                 selection: settings.defaultModel,
                 select: { $0.map(settings.select) },
                 modelLabel: {
-                    SettingsRowTitle(.aiDefault, "Default model")
+                    SettingsRowTitle(.aiDefault, String(localized: "Default model"))
                 },
                 effortLabel: {
-                    SettingsRowTitle(.aiDefault, "Reasoning effort")
+                    SettingsRowTitle(.aiDefault, String(localized: "Reasoning effort"))
                 }
             )
         } header: {
@@ -123,7 +123,7 @@ struct AISettingsView: View {
         @Bindable var settings = settings
         return Section {
             Toggle(isOn: $settings.webSearchEnabled) {
-                SettingsRowTitle(.aiChat, "Web search")
+                SettingsRowTitle(.aiChat, String(localized: "Web search"))
                 Text("Codex and OpenRouter only. Prompts go to a search engine.")
             }
         } header: {
@@ -137,19 +137,19 @@ struct AISettingsView: View {
             Picker(selection: $settings.opensTo) {
                 ForEach(AIOpensTo.allCases) { Text($0.title).tag($0) }
             } label: {
-                SettingsRowTitle(.aiConversations, "Opens to")
+                SettingsRowTitle(.aiConversations, String(localized: "Opens to"))
             }
             if settings.opensTo == .recent {
                 Picker(selection: $settings.newChatAfter) {
                     ForEach(AINewChatAfter.allCases) { Text($0.title).tag($0) }
                 } label: {
-                    SettingsRowTitle(.aiConversations, "Start a new conversation after")
+                    SettingsRowTitle(.aiConversations, String(localized: "Start a new conversation after"))
                 }
             }
             Picker(selection: $settings.retention) {
                 ForEach(AIRetention.allCases) { Text($0.title).tag($0) }
             } label: {
-                SettingsRowTitle(.aiConversations, "Keep conversations")
+                SettingsRowTitle(.aiConversations, String(localized: "Keep conversations"))
                 Text("Older ones are deleted.")
             }
             .onChange(of: settings.retention) { core.aiChatCoordinator.applyRetention() }
@@ -166,7 +166,7 @@ struct AISettingsView: View {
         @Bindable var settings = settings
         return Section {
             Toggle(isOn: $settings.systemPromptEnabled) {
-                SettingsRowTitle(.aiSystemPrompt, "Send a system prompt")
+                SettingsRowTitle(.aiSystemPrompt, String(localized: "Send a system prompt"))
                 Text("Off also skips Tinycast's own prompt.")
             }
             SystemPromptEditor(text: $settings.systemPrompt)
@@ -449,7 +449,7 @@ struct AISettingsView: View {
                     connection: AIConnection(), hasStoredKey: false, isNew: true)
             } label: {
                 Label {
-                    SettingsRowTitle(.aiAPIConnections, "Add API Connection")
+                    SettingsRowTitle(.aiAPIConnections, String(localized: "Add API Connection"))
                 } icon: {
                     Image(systemName: "plus")
                 }

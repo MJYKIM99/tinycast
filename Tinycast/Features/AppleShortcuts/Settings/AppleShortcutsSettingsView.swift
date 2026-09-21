@@ -20,7 +20,8 @@ struct AppleShortcutsSettingsView: View {
         return Form {
             Section {
                 Toggle(isOn: $settings.appleShortcutsEnabled) {
-                    SettingsRowTitle(.appleShortcutsAppleShortcuts, "Enable Apple Shortcuts")
+                    SettingsRowTitle(
+                        .appleShortcutsAppleShortcuts, String(localized: "Enable Apple Shortcuts"))
                     Text("Run your shortcuts from the launcher.")
                 }
             } header: {

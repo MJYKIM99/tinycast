@@ -17,7 +17,7 @@ struct WindowLayoutsSection: View {
         @Bindable var settings = settings
         return Section {
             Toggle(isOn: $settings.windowLayoutsShowInLauncher) {
-                SettingsRowTitle(.windowManagementLayouts, "Show layouts in launcher")
+                SettingsRowTitle(.windowManagementLayouts, String(localized: "Show layouts in launcher"))
             }
 
             if store.layouts.count > Self.filterThreshold {
@@ -39,12 +39,13 @@ struct WindowLayoutsSection: View {
             Button {
                 onEdit(nil)
             } label: {
-                SettingsRowTitle(.windowManagementLayouts, "New Layout")
+                SettingsRowTitle(.windowManagementLayouts, String(localized: "New Layout"))
             }
             Button {
                 core.windowLayoutCoordinator.captureWindowLayout()
             } label: {
-                SettingsRowTitle(.windowManagementLayouts, "Create Layout from Current Windows")
+                SettingsRowTitle(
+                    .windowManagementLayouts, String(localized: "Create Layout from Current Windows"))
             }
         } header: {
             SettingsSectionHeader(.windowManagementLayouts)

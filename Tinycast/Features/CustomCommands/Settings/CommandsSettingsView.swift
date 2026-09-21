@@ -45,12 +45,12 @@ struct CommandsSettingsView: View {
                 Button {
                     editor = EditorTarget(command: nil)
                 } label: {
-                    SettingsRowTitle(.commandsCustomCommands, "Add Custom Command")
+                    SettingsRowTitle(.commandsCustomCommands, String(localized: "Add Custom Command"))
                 }
                 Button {
                     Task { await core.customCommandCoordinator.importScriptDirectory() }
                 } label: {
-                    SettingsRowTitle(.commandsCustomCommands, "Import Raycast Scripts")
+                    SettingsRowTitle(.commandsCustomCommands, String(localized: "Import Raycast Scripts"))
                 }
             } footer: {
                 Text("Import reads a folder of Raycast script commands.")

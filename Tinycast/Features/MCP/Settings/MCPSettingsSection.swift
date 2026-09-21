@@ -12,7 +12,7 @@ struct MCPSettingsSection: View {
         @Bindable var appSettings = appSettings
         Section {
             Toggle(isOn: $appSettings.mcpEnabled) {
-                SettingsRowTitle(.aiMCPServers, "Enable MCP servers")
+                SettingsRowTitle(.aiMCPServers, String(localized: "Enable MCP servers"))
             }
             Group {
                 if store.servers.isEmpty {
@@ -30,7 +30,7 @@ struct MCPSettingsSection: View {
                     editor = MCPServerEditorTarget(server: MCPServer(), isNew: true)
                 } label: {
                     Label {
-                        SettingsRowTitle(.aiMCPServers, "Add MCP Server")
+                        SettingsRowTitle(.aiMCPServers, String(localized: "Add MCP Server"))
                     } icon: {
                         Image(systemName: "plus")
                     }

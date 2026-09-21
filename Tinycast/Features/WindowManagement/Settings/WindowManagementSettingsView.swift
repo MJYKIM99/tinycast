@@ -63,7 +63,7 @@ struct WindowManagementSettingsView: View {
                     Text(cycle.title).tag(cycle)
                 }
             } label: {
-                SettingsRowTitle(.windowManagementOptions, "Cycling")
+                SettingsRowTitle(.windowManagementOptions, String(localized: "Cycling"))
                 Text(settings.windowCycle.detail)
             }
 
@@ -76,7 +76,7 @@ struct WindowManagementSettingsView: View {
                         .labelsHidden()
                 }
             } label: {
-                SettingsRowTitle(.windowManagementOptions, "Gap between windows")
+                SettingsRowTitle(.windowManagementOptions, String(localized: "Gap between windows"))
                 Text("Between tiled windows and screen edges.")
             }
         } header: {

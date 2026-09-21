@@ -20,7 +20,7 @@ struct PermissionsSettingsView: View {
                         .help("Opens Privacy & Security › Accessibility.")
                     }
                 } label: {
-                    SettingsRowTitle(.permissionsAccessibility, "Accessibility")
+                    SettingsRowTitle(.permissionsAccessibility, String(localized: "Accessibility"))
                     Text("Pastes into the app you were using.")
                 }
             } header: {
@@ -46,7 +46,7 @@ struct PermissionsSettingsView: View {
                                 : "Opens Privacy & Security › Calendars.")
                     }
                 } label: {
-                    SettingsRowTitle(.permissionsCalendars, "Calendars")
+                    SettingsRowTitle(.permissionsCalendars, String(localized: "Calendars"))
                     Text("Finds the join link for your next meeting.")
                 }
             } header: {

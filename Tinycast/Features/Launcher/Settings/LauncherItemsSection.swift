@@ -21,7 +21,7 @@ struct LauncherItemsSection: View {
     var body: some View {
         Section {
             Toggle(isOn: enabledBinding) {
-                SettingsRowTitle(anchor, "Enable \(anchor.title)")
+                SettingsRowTitle(anchor, String(localized: "Enable \(anchor.title)"))
                 Text("Off hides all of them and stops their shortcuts.")
             }
         } header: {

@@ -70,7 +70,7 @@ struct AboutView: View {
                 Button {
                     core.updateCoordinator.checkForUpdates()
                 } label: {
-                    SettingsRowTitle(.aboutAbout, "Check for Updates")
+                    SettingsRowTitle(.aboutAbout, String(localized: "Check for Updates"))
                 }
                 .buttonStyle(.link)
                 .font(.caption)
@@ -105,7 +105,7 @@ struct AboutView: View {
                             .foregroundStyle(Theme.Colors.brand)
                     )
                 VStack(alignment: .leading, spacing: Theme.Spacing.xxs) {
-                    SettingsRowTitle(.aboutLinks, "Support")
+                    SettingsRowTitle(.aboutLinks, String(localized: "Support"))
                         .font(.body.weight(.medium))
                     Text("Free and open source, funded out of pocket.")
                         .font(.caption)

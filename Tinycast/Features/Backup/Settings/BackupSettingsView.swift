@@ -46,7 +46,7 @@ struct BackupSettingsView: View {
                         Button("Export…") { runExport() }.disabled(exportSelection.isEmpty)
                     }
                 } label: {
-                    SettingsRowTitle(.backupExport, "Export Backup")
+                    SettingsRowTitle(.backupExport, String(localized: "Export Backup"))
                     Text("The ticked items, as one .tinycast file.")
                 }
                 BackupCategorySelection(selection: $exportSelection)
@@ -59,7 +59,7 @@ struct BackupSettingsView: View {
                 LabeledContent {
                     Button("Choose…") { chooseBackupFile() }
                 } label: {
-                    SettingsRowTitle(.backupImport, "Backup File")
+                    SettingsRowTitle(.backupImport, String(localized: "Backup File"))
                     Text(backupFileSubtitle)
                 }
                 if let manifest = openedManifest {
@@ -84,7 +84,7 @@ struct BackupSettingsView: View {
                 LabeledContent {
                     Button("Choose…") { chooseRaycastFile() }
                 } label: {
-                    SettingsRowTitle(.backupImportFromRaycast, "Raycast Export")
+                    SettingsRowTitle(.backupImportFromRaycast, String(localized: "Raycast Export"))
                     Text(raycastFileSubtitle)
                 }
                 LabeledContent {

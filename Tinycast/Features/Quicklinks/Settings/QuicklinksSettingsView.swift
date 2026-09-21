@@ -91,7 +91,7 @@ struct QuicklinksSettingsView: View {
             Button {
                 editor = QuicklinkEditRequest(quicklink: nil)
             } label: {
-                SettingsRowTitle(.quicklinksQuicklinks, "Add Quicklink")
+                SettingsRowTitle(.quicklinksQuicklinks, String(localized: "Add Quicklink"))
             }
         }
     }
@@ -100,7 +100,7 @@ struct QuicklinksSettingsView: View {
         @Bindable var settings = settings
         return Section {
             Toggle(isOn: $settings.quicklinkOpensNewWindow) {
-                SettingsRowTitle(.quicklinksBehaviour, "Open in a new window")
+                SettingsRowTitle(.quicklinksBehaviour, String(localized: "Open in a new window"))
                 Text("Where the app supports it.")
             }
             Picker(selection: $settings.quicklinkSelectionFallback) {
@@ -108,11 +108,11 @@ struct QuicklinksSettingsView: View {
                     Text(option.title).tag(option)
                 }
             } label: {
-                SettingsRowTitle(.quicklinksBehaviour, "When there's no selected text")
+                SettingsRowTitle(.quicklinksBehaviour, String(localized: "When there's no selected text"))
                 Text("For links that use {selection}.")
             }
             Toggle(isOn: $settings.quicklinkConfirmsBeforeDelete) {
-                SettingsRowTitle(.quicklinksBehaviour, "Confirm before deleting")
+                SettingsRowTitle(.quicklinksBehaviour, String(localized: "Confirm before deleting"))
                 Text("From the launcher's Actions menu.")
             }
         } header: {
@@ -125,14 +125,14 @@ struct QuicklinksSettingsView: View {
             LabeledContent {
                 Button("Import…") { Task { await core.quicklinkCoordinator.importQuicklinks() } }
             } label: {
-                SettingsRowTitle(.quicklinksImportExport, "Import quicklinks")
+                SettingsRowTitle(.quicklinksImportExport, String(localized: "Import quicklinks"))
                 Text("From a JSON file; duplicates are skipped.")
             }
             LabeledContent {
                 Button("Export…") { Task { await core.quicklinkCoordinator.exportQuicklinks() } }
                     .disabled(store.quicklinks.isEmpty)
             } label: {
-                SettingsRowTitle(.quicklinksImportExport, "Export quicklinks")
+                SettingsRowTitle(.quicklinksImportExport, String(localized: "Export quicklinks"))
                 Text("To a JSON file.")
             }
         } header: {

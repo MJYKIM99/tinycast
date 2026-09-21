@@ -20,7 +20,7 @@ struct QuickActionsSettingsView: View {
         Form {
             Section {
                 Toggle(isOn: enabledBinding) {
-                    SettingsRowTitle(.quickActionsQuickActions, "Enable Quick Actions")
+                    SettingsRowTitle(.quickActionsQuickActions, String(localized: "Enable Quick Actions"))
                     Text("Act on selected text. Nothing is read until you press a shortcut.")
                 }
                 if appSettings.quickActionsEnabled, !isTrusted {
@@ -103,7 +103,7 @@ struct QuickActionsSettingsView: View {
             Button {
                 customEditing = CustomQuickActionEditRequest(action: nil)
             } label: {
-                SettingsRowTitle(.quickActionsActions, "Add Quick Action")
+                SettingsRowTitle(.quickActionsActions, String(localized: "Add Quick Action"))
             }
         } header: {
             SettingsSectionHeader(.quickActionsActions)
@@ -165,11 +165,11 @@ struct QuickActionsSettingsView: View {
                 selection: store.model,
                 select: store.select,
                 modelLabel: {
-                    SettingsRowTitle(.quickActionsModel, "Model")
+                    SettingsRowTitle(.quickActionsModel, String(localized: "Model"))
                     Text("Unless an action sets its own.")
                 },
                 effortLabel: {
-                    SettingsRowTitle(.quickActionsModel, "Reasoning effort")
+                    SettingsRowTitle(.quickActionsModel, String(localized: "Reasoning effort"))
                 }
             )
         } header: {
@@ -189,7 +189,7 @@ struct QuickActionsSettingsView: View {
                     Text(TextTranslator.displayName(of: $0)).tag($0.minimalIdentifier)
                 }
             } label: {
-                SettingsRowTitle(.quickActionsTranslate, "Translate to")
+                SettingsRowTitle(.quickActionsTranslate, String(localized: "Translate to"))
             }
         } header: {
             SettingsSectionHeader(.quickActionsTranslate)

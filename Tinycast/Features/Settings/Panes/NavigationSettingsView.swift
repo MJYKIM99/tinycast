@@ -10,7 +10,7 @@ struct NavigationSettingsView: View {
         return Form {
             Section {
                 Toggle(isOn: $settings.navigationEnabled) {
-                    SettingsRowTitle(.navigationNavigation, "Enable navigation")
+                    SettingsRowTitle(.navigationNavigation, String(localized: "Enable navigation"))
                     Text("Switch windows and search menu bar items.")
                 }
             } header: {
@@ -31,7 +31,7 @@ struct NavigationSettingsView: View {
                 }
 
                 Toggle(isOn: $settings.menuSearchShowsAppleMenu) {
-                    SettingsRowTitle(.navigationMenuSearch, "Show Apple menu items")
+                    SettingsRowTitle(.navigationMenuSearch, String(localized: "Show Apple menu items"))
                 }
 
                 SettingsRow(

@@ -32,10 +32,10 @@ struct GeneralSettingsView: View {
 
             Section {
                 Toggle(isOn: $settings.launchAtLogin) {
-                    SettingsRowTitle(.generalGeneral, "Launch at login")
+                    SettingsRowTitle(.generalGeneral, String(localized: "Launch at login"))
                 }
                 Toggle(isOn: $showInMenuBar) {
-                    SettingsRowTitle(.generalGeneral, "Show in menu bar")
+                    SettingsRowTitle(.generalGeneral, String(localized: "Show in menu bar"))
                     Text("Shortcuts still work when hidden.")
                 }
                 Picker(selection: $settings.popToRootTimeout) {
@@ -43,7 +43,7 @@ struct GeneralSettingsView: View {
                         Text(timeout.title).tag(timeout)
                     }
                 } label: {
-                    SettingsRowTitle(.generalGeneral, "Pop to Root Search")
+                    SettingsRowTitle(.generalGeneral, String(localized: "Pop to Root Search"))
                     Text("After the launcher closes.")
                 }
                 Picker(selection: $settings.escapeKeyBehavior) {
@@ -51,7 +51,7 @@ struct GeneralSettingsView: View {
                         Text(behavior.title).tag(behavior)
                     }
                 } label: {
-                    SettingsRowTitle(.generalGeneral, "Escape Key Behavior")
+                    SettingsRowTitle(.generalGeneral, String(localized: "Escape Key Behavior"))
                     Text("When the search field is empty.")
                 }
                 // Empty only when TIS fails; one layout still lists, so the row stays put.
@@ -62,7 +62,7 @@ struct GeneralSettingsView: View {
                             Text(source.title).tag(Optional(source.id))
                         }
                     } label: {
-                        SettingsRowTitle(.generalGeneral, "Auto-switch input source")
+                        SettingsRowTitle(.generalGeneral, String(localized: "Auto-switch input source"))
                         Text("While the launcher is open.")
                     }
                 }
@@ -76,24 +76,25 @@ struct GeneralSettingsView: View {
                         Text(appearance.title).tag(appearance)
                     }
                 } label: {
-                    SettingsRowTitle(.generalAppearance, "Theme")
+                    SettingsRowTitle(.generalAppearance, String(localized: "Theme"))
                 }
                 InterfaceSizeRow()
                 PaletteTransparencyRow()
                 Toggle(isOn: $settings.compactMode) {
-                    SettingsRowTitle(.generalAppearance, "Compact mode")
+                    SettingsRowTitle(.generalAppearance, String(localized: "Compact mode"))
                     Text("A slim search bar that expands as you type.")
                 }
                 Toggle(isOn: $settings.showFavoritesInCompactMode) {
-                    SettingsRowTitle(.generalAppearance, "Show favorites in compact mode")
+                    SettingsRowTitle(.generalAppearance, String(localized: "Show favorites in compact mode"))
                     Text("Launch them with ⌘1–⌘5.")
                 }
                 .settingsEnabled(settings.compactMode)
                 Toggle(isOn: $settings.openOnCursorScreen) {
-                    SettingsRowTitle(.generalAppearance, "Follow the cursor across displays")
+                    SettingsRowTitle(
+                        .generalAppearance, String(localized: "Follow the cursor across displays"))
                 }
                 Toggle(isOn: $settings.paletteDraggable) {
-                    SettingsRowTitle(.generalAppearance, "Drag to reposition")
+                    SettingsRowTitle(.generalAppearance, String(localized: "Drag to reposition"))
                     Text("Drag the strip above the search field.")
                 }
             } header: {
@@ -106,7 +107,7 @@ struct GeneralSettingsView: View {
                         Text(key.title).tag(key)
                     }
                 } label: {
-                    SettingsRowTitle(.generalHyperKey, "Hyper Key")
+                    SettingsRowTitle(.generalHyperKey, String(localized: "Hyper Key"))
                     Text(hyperSubtitle)
                 }
                 .onChange(of: settings.hyperKey) { _, newKey in
@@ -135,13 +136,13 @@ struct GeneralSettingsView: View {
                         }
                         Text("Trigger Escape").tag(HyperKeyQuickPress.escape)
                     } label: {
-                        SettingsRowTitle(.generalHyperKey, "Quick Press")
+                        SettingsRowTitle(.generalHyperKey, String(localized: "Quick Press"))
                         Text("When \(settings.hyperKey.title) is pressed alone.")
                     }
                 }
 
                 Toggle(isOn: $settings.hyperKeyIncludesShift) {
-                    SettingsRowTitle(.generalHyperKey, "Include Shift (⇧)")
+                    SettingsRowTitle(.generalHyperKey, String(localized: "Include Shift (⇧)"))
                 }
                 // Flipping it re-points recorded chords, so it needs a chord to mean.
                 .settingsEnabled(settings.hyperKey != .none)
@@ -156,7 +157,7 @@ struct GeneralSettingsView: View {
                         Text("\(style.title) (\(sample))").tag(style)
                     }
                 } label: {
-                    SettingsRowTitle(.generalCalculator, "Number format")
+                    SettingsRowTitle(.generalCalculator, String(localized: "Number format"))
                     Text("With a decimal comma, ; separates arguments.")
                 }
             } header: {
@@ -170,7 +171,7 @@ struct GeneralSettingsView: View {
                     }
                     .disabled(launcherRanking.isEmpty)
                 } label: {
-                    SettingsRowTitle(.generalSearch, "Learned ranking")
+                    SettingsRowTitle(.generalSearch, String(localized: "Learned ranking"))
                     Text("Learned privately from the results you pick.")
                 }
             } header: {

@@ -65,7 +65,7 @@ enum SystemActionRunner {
         case .showScreenSaver:
             let url = URL(fileURLWithPath: "/System/Library/CoreServices/ScreenSaverEngine.app")
             guard FileManager.default.fileExists(atPath: url.path) else {
-                throw SystemActionFailure("The macOS screen saver could not be found.")
+                throw SystemActionFailure(String(localized: "The macOS screen saver could not be found."))
             }
             NSWorkspace.shared.openApplication(
                 at: url, configuration: NSWorkspace.OpenConfiguration()
@@ -118,7 +118,7 @@ enum SystemActionRunner {
         case .openTrash:
             let trash = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".Trash")
             guard NSWorkspace.shared.open(trash) else {
-                throw SystemActionFailure("Finder could not open the Trash.")
+                throw SystemActionFailure(String(localized: "Finder could not open the Trash."))
             }
         case .emptyTrash:
             // Count first: Finder errors on an empty Trash, and `~/.Trash` is TCC-protected.
@@ -126,14 +126,14 @@ enum SystemActionRunner {
                 try await runAppleScript("tell application \"Finder\" to count items of trash")
                 .number
             guard items > 0 else {
-                return SystemActionFeedback("Trash Is Already Empty", isNoOp: true)
+                return SystemActionFeedback(String(localized: "Trash Is Already Empty"), isNoOp: true)
             }
             try await runAppleScript("tell application \"Finder\" to empty trash")
-            return SystemActionFeedback("Trash Emptied")
+            return SystemActionFeedback(String(localized: "Trash Emptied"))
         case .ejectAllDisks:
             let ejected = try ejectAllDisks()
             guard ejected > 0 else {
-                return SystemActionFeedback("No Disks to Eject", isNoOp: true)
+                return SystemActionFeedback(String(localized: "No Disks to Eject"), isNoOp: true)
             }
             return SystemActionFeedback(ejected == 1 ? "1 Disk Ejected" : "\(ejected) Disks Ejected")
         case .toggleHiddenFiles:
@@ -150,17 +150,17 @@ enum SystemActionRunner {
             let hidden = NSWorkspace.shared.runningApplications.filter(\.isHidden)
             for app in hidden { app.unhide() }
             guard !hidden.isEmpty else {
-                return SystemActionFeedback("Nothing Was Hidden", isNoOp: true)
+                return SystemActionFeedback(String(localized: "Nothing Was Hidden"), isNoOp: true)
             }
-            return SystemActionFeedback("All Apps Unhidden")
+            return SystemActionFeedback(String(localized: "All Apps Unhidden"))
         case .quitAllApps:
             for app in AppLauncher.quitAllTargets() { app.terminate() }
         case .dismissNotifications:
             let dismissed = try await dismissNotifications()
             guard dismissed > 0 else {
-                return SystemActionFeedback("No Notifications", isNoOp: true)
+                return SystemActionFeedback(String(localized: "No Notifications"), isNoOp: true)
             }
-            return SystemActionFeedback("Notifications Dismissed")
+            return SystemActionFeedback(String(localized: "Notifications Dismissed"))
         case .toggleBluetooth:
             let on = try await toggleBluetooth()
             return SystemActionFeedback(on ? "Bluetooth On" : "Bluetooth Off")
@@ -179,7 +179,7 @@ enum SystemActionRunner {
             var size = UInt32(MemoryLayout<Float32>.size)
             guard AudioObjectGetPropertyData(device, &address, 0, nil, &size, &value) == noErr else {
                 throw SystemActionFailure(
-                    "The current audio output does not support software volume.")
+                    String(localized: "The current audio output does not support software volume."))
             }
             total += value
         }
@@ -212,14 +212,14 @@ enum SystemActionRunner {
                 settable.boolValue
             else {
                 throw SystemActionFailure(
-                    "The current audio output volume is controlled externally.")
+                    String(localized: "The current audio output volume is controlled externally."))
             }
             var applied = value
             let status = AudioObjectSetPropertyData(
                 device, &address, 0, nil, UInt32(MemoryLayout<Float32>.size), &applied)
             guard status == noErr else {
                 throw SystemActionFailure(
-                    "macOS could not change the output volume (error \(status)).")
+                    String(localized: "macOS could not change the output volume (error \(status))."))
             }
         }
         if value > 0 { try? setMuted(false, on: device) }
@@ -244,7 +244,8 @@ enum SystemActionRunner {
             return AudioObjectHasProperty(device, &address)
         }
         guard !elements.isEmpty else {
-            throw SystemActionFailure("The current audio output does not support software volume.")
+            throw SystemActionFailure(
+                String(localized: "The current audio output does not support software volume."))
         }
         return elements
     }
@@ -277,7 +278,7 @@ enum SystemActionRunner {
         let status = AudioObjectGetPropertyData(
             AudioObjectID(kAudioObjectSystemObject), &address, 0, nil, &size, &device)
         guard status == noErr, device != kAudioObjectUnknown else {
-            throw SystemActionFailure("No audio output device is available.")
+            throw SystemActionFailure(String(localized: "No audio output device is available."))
         }
         return device
     }
@@ -323,20 +324,23 @@ enum SystemActionRunner {
         let status = AudioObjectSetPropertyData(
             device, &address, 0, nil, UInt32(MemoryLayout<UInt32>.size), &value)
         guard status == noErr else {
-            throw SystemActionFailure("macOS could not change mute state (error \(status)).")
+            throw SystemActionFailure(
+                String(localized: "macOS could not change mute state (error \(status))."))
         }
     }
 
     private static func postKey(keyCode: CGKeyCode, flags: CGEventFlags) throws {
         guard Permissions.ensureAccessibility() else {
             throw SystemActionFailure(
-                "Allow Tinycast to control your Mac in Accessibility settings, then try again.",
+                String(
+                    localized: "Allow Tinycast to control your Mac in Accessibility settings, then try again."
+                ),
                 settings: .accessibility)
         }
         let source = CGEventSource(stateID: .combinedSessionState)
         guard let down = CGEvent(keyboardEventSource: source, virtualKey: keyCode, keyDown: true),
             let up = CGEvent(keyboardEventSource: source, virtualKey: keyCode, keyDown: false)
-        else { throw SystemActionFailure("macOS could not create the keyboard event.") }
+        else { throw SystemActionFailure(String(localized: "macOS could not create the keyboard event.")) }
         down.flags = flags
         up.flags = flags
         down.post(tap: .cghidEventTap)
@@ -346,7 +350,9 @@ enum SystemActionRunner {
     private static func postMediaKey(_ key: Int32) throws {
         guard Permissions.ensureAccessibility() else {
             throw SystemActionFailure(
-                "Allow Tinycast to control your Mac in Accessibility settings, then try again.",
+                String(
+                    localized: "Allow Tinycast to control your Mac in Accessibility settings, then try again."
+                ),
                 settings: .accessibility)
         }
         // The same route as the keyboard's media keys; 0xA/0xB are down and up.
@@ -430,7 +436,8 @@ enum SystemActionRunner {
         let current: Bool
         if read.status == 0 {
             guard let parsed = booleanDefault(normalized) else {
-                throw SystemActionFailure("macOS reported an unexpected value for this setting.")
+                throw SystemActionFailure(
+                    String(localized: "macOS reported an unexpected value for this setting."))
             }
             current = parsed
         } else if read.stderr.contains("does not exist") {
@@ -446,7 +453,7 @@ enum SystemActionRunner {
         let verify = try await process("/usr/bin/defaults", arguments: ["read", domain, key])
         let verified = verify.stdout.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         guard verify.status == 0, booleanDefault(verified) == requested else {
-            throw SystemActionFailure("macOS did not save the requested setting.")
+            throw SystemActionFailure(String(localized: "macOS did not save the requested setting."))
         }
         return requested
     }
@@ -463,7 +470,9 @@ enum SystemActionRunner {
     private static func dismissNotifications() async throws -> Int {
         guard Permissions.ensureAccessibility() else {
             throw SystemActionFailure(
-                "Allow Tinycast to control your Mac in Accessibility settings, then try again.",
+                String(
+                    localized: "Allow Tinycast to control your Mac in Accessibility settings, then try again."
+                ),
                 settings: .accessibility)
         }
         guard
@@ -478,16 +487,21 @@ enum SystemActionRunner {
             guard let notification = firstNotification(in: root, depth: 0) else { return dismissed }
             guard let action = dismissAction(of: notification) else {
                 throw SystemActionFailure(
-                    "This version of Notification Center exposes no dismiss control Tinycast can use.")
+                    String(
+                        localized:
+                            "This version of Notification Center exposes no dismiss control Tinycast can use."
+                    ))
             }
             let result = AXUIElementPerformAction(notification, action as CFString)
             guard result == .success || result == .invalidUIElement else {
-                throw SystemActionFailure("Notification Center did not allow a notification to be dismissed.")
+                throw SystemActionFailure(
+                    String(localized: "Notification Center did not allow a notification to be dismissed."))
             }
             dismissed += 1
             try await Task.sleep(for: .milliseconds(150))
         }
-        throw SystemActionFailure("Some notifications remain after the safety limit was reached.")
+        throw SystemActionFailure(
+            String(localized: "Some notifications remain after the safety limit was reached."))
     }
 
     /// Matched on AX subrole, so the search never depends on the UI language.
@@ -530,7 +544,7 @@ enum SystemActionRunner {
     private static func toggleBluetooth() async throws -> Bool {
         let path = "/System/Library/Frameworks/IOBluetooth.framework/IOBluetooth"
         guard let handle = dlopen(path, RTLD_NOW) else {
-            throw SystemActionFailure("Bluetooth control is unavailable on this Mac.")
+            throw SystemActionFailure(String(localized: "Bluetooth control is unavailable on this Mac."))
         }
         defer { dlclose(handle) }
         typealias Available = @convention(c) () -> Int32
@@ -539,12 +553,16 @@ enum SystemActionRunner {
         guard let availableSymbol = dlsym(handle, "IOBluetoothPreferencesAvailable"),
             let getSymbol = dlsym(handle, "IOBluetoothPreferenceGetControllerPowerState"),
             let setSymbol = dlsym(handle, "IOBluetoothPreferenceSetControllerPowerState")
-        else { throw SystemActionFailure("This macOS version does not expose Bluetooth power control.") }
+        else {
+            throw SystemActionFailure(
+                String(localized: "This macOS version does not expose Bluetooth power control."))
+        }
         let available = unsafeBitCast(availableSymbol, to: Available.self)
         let getPower = unsafeBitCast(getSymbol, to: GetPower.self)
         let setPower = unsafeBitCast(setSymbol, to: SetPower.self)
         guard available() != 0 else {
-            throw SystemActionFailure("No Bluetooth controller is available.", settings: .bluetooth)
+            throw SystemActionFailure(
+                String(localized: "No Bluetooth controller is available."), settings: .bluetooth)
         }
         let requested: Int32 = getPower() == 0 ? 1 : 0
         setPower(requested)
@@ -553,7 +571,7 @@ enum SystemActionRunner {
             if getPower() == requested { return requested == 1 }
         }
         throw SystemActionFailure(
-            "Bluetooth did not change state. Check Tinycast’s Bluetooth permission.",
+            String(localized: "Bluetooth did not change state. Check Tinycast’s Bluetooth permission."),
             settings: .bluetooth)
     }
 
@@ -568,7 +586,7 @@ enum SystemActionRunner {
     private static func runAppleScript(_ source: String) async throws -> AppleScriptResult {
         try await Task.detached(priority: .userInitiated) {
             guard let script = NSAppleScript(source: source) else {
-                throw SystemActionFailure("The system automation could not be prepared.")
+                throw SystemActionFailure(String(localized: "The system automation could not be prepared."))
             }
             var errorInfo: NSDictionary?
             let result = script.executeAndReturnError(&errorInfo)
@@ -580,7 +598,10 @@ enum SystemActionRunner {
                 errorInfo[NSAppleScript.errorMessage] as? String ?? "Unknown automation error."
             if number == -1743 {
                 throw SystemActionFailure(
-                    "Allow Tinycast to control the requested app in Automation settings, then try again.",
+                    String(
+                        localized:
+                            "Allow Tinycast to control the requested app in Automation settings, then try again."
+                    ),
                     settings: .automation)
             }
             throw SystemActionFailure(detail)
