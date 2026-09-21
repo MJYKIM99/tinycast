@@ -87,7 +87,7 @@ struct FileSearchScreen: PaletteScreen {
     @ViewBuilder
     private func content(selection: Int, scroll: ScrollIntent) -> some View {
         if session.state == .failed {
-            EmptyResults(text: "File search is unavailable")
+            EmptyResults(text: String(localized: "File search is unavailable"))
         } else if rows.isEmpty {
             emptyState
         } else {
@@ -125,7 +125,7 @@ struct FileSearchScreen: PaletteScreen {
         if session.state != .ready {
             Color.clear
         } else if isShowingRecents {
-            EmptyResults(text: "Type to search files and folders")
+            EmptyResults(text: String(localized: "Type to search files and folders"))
         } else {
             EmptyResults(text: vm.fileSearchFilter.emptyMessage)
         }
@@ -153,13 +153,14 @@ enum FileSearchActionsMenu {
                     systemImage: result.isDirectory ? "folder" : "doc", shortcut: "↵"
                 ) { coordinator.open(result) },
                 PopoverMenuItem(
-                    title: "Show in Finder", systemImage: "folder", shortcut: "⌘↵"
+                    title: String(localized: "Show in Finder"), systemImage: "folder", shortcut: "⌘↵"
                 ) { coordinator.showInFinder(result) },
-                PopoverMenuItem(title: "Quick Look", systemImage: "eye", shortcut: "⌘Y") {
+                PopoverMenuItem(title: String(localized: "Quick Look"), systemImage: "eye", shortcut: "⌘Y") {
                     vm.fileSearchQuickLook = true
                 },
                 PopoverMenuItem(
-                    title: "Copy File", systemImage: "doc.on.clipboard", startsSection: true,
+                    title: String(localized: "Copy File"), systemImage: "doc.on.clipboard",
+                    startsSection: true,
                     shortcut: "⇧⌘C"
                 ) { coordinator.copyFile(result) },
                 PopoverMenuItem(
@@ -167,13 +168,13 @@ enum FileSearchActionsMenu {
                     icon: .paste(target, fallback: "doc.on.clipboard"), shortcut: "⇧⌘V"
                 ) { coordinator.pasteFile(result) },
                 PopoverMenuItem(
-                    title: "Copy Name", systemImage: "doc.on.clipboard", shortcut: "⌥⌘C"
+                    title: String(localized: "Copy Name"), systemImage: "doc.on.clipboard", shortcut: "⌥⌘C"
                 ) { coordinator.copyName(result) },
                 PopoverMenuItem(
-                    title: "Copy Path", systemImage: "doc.on.clipboard", shortcut: "⌃⌘C"
+                    title: String(localized: "Copy Path"), systemImage: "doc.on.clipboard", shortcut: "⌃⌘C"
                 ) { coordinator.copyPath(result) },
                 PopoverMenuItem(
-                    title: "Move to Trash", systemImage: "trash", startsSection: true,
+                    title: String(localized: "Move to Trash"), systemImage: "trash", startsSection: true,
                     shortcut: "⌃X", isDestructive: true
                 ) { coordinator.trash(result) }
             ])

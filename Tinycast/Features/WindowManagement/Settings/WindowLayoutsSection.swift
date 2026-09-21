@@ -21,7 +21,7 @@ struct WindowLayoutsSection: View {
             }
 
             if store.layouts.count > Self.filterThreshold {
-                SettingsFilterField(prompt: "Search layouts…", query: $query)
+                SettingsFilterField(prompt: String(localized: "Search layouts…"), query: $query)
             }
 
             if results.isEmpty {

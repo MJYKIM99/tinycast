@@ -26,7 +26,7 @@ struct BackupCategorySelection: View {
         guard let noun = category.descriptor.countNoun, let count = available?[category] else {
             return nil
         }
-        return "\(count) \(noun)"
+        return String(localized: "\(count) \(noun)")
     }
 
     var body: some View {

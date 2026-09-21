@@ -31,8 +31,8 @@ struct CalendarSettingsView: View {
             if settings.calendarEnabled, store.access == .notDetermined {
                 Section {
                     SettingsRow(
-                        title: "Calendar access is needed",
-                        subtitle: "Needed to read events and find join links."
+                        title: String(localized: "Calendar access is needed"),
+                        subtitle: String(localized: "Needed to read events and find join links.")
                     ) {
                         Button("Allow Calendar Access…") {
                             core.calendarCoordinator.setCalendarEnabled(true)
@@ -42,8 +42,8 @@ struct CalendarSettingsView: View {
             } else if store.access == .denied {
                 Section {
                     SettingsRow(
-                        title: "Calendar access is off",
-                        subtitle: "Allow it in Privacy & Security ▸ Calendars."
+                        title: String(localized: "Calendar access is off"),
+                        subtitle: String(localized: "Allow it in Privacy & Security ▸ Calendars.")
                     ) {
                         Button("Open System Settings…") { Permissions.openCalendarSettings() }
                     }
@@ -188,7 +188,7 @@ private struct CalendarPickerSection: View {
 
     var body: some View {
         Section {
-            SettingsFilterField(prompt: "Search calendars…", query: $query)
+            SettingsFilterField(prompt: String(localized: "Search calendars…"), query: $query)
 
             if calendars.isEmpty {
                 Text(emptyMessage)
@@ -214,7 +214,7 @@ private struct CalendarPickerSection: View {
     private static let rowPadding: CGFloat = 15
 
     private var emptyMessage: String {
-        if !query.isEmpty { return "No matches for “\(query)”." }
+        if !query.isEmpty { return String(localized: "No matches for “\(query)”.") }
         return store.access == .granted ? "No calendars on this Mac." : "Nothing to show yet."
     }
 }

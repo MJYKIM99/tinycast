@@ -87,11 +87,11 @@ final class CalendarCoordinator {
         Task {
             guard
                 await core.confirm(
-                    title: "Enable calendar?",
+                    title: String(localized: "Enable calendar?"),
                     message:
                         "Tinycast reads \(span.possessivePhrase) events to find join links. "
                         + "Nothing leaves this Mac.",
-                    symbol: "calendar", confirmTitle: "Continue", tone: .neutral,
+                    symbol: "calendar", confirmTitle: String(localized: "Continue"), tone: .neutral,
                     confirmRole: .standard)
             else { return }
 
@@ -241,8 +241,8 @@ final class CalendarCoordinator {
             guard let draft = await core.createEvent() else { return }
             guard store.createEvent(draft, now: Date()) else {
                 _ = await core.reportFailure(
-                    title: "Couldn't create the event",
-                    message: "No calendar on this Mac accepts new events.",
+                    title: String(localized: "Couldn't create the event"),
+                    message: String(localized: "No calendar on this Mac accepts new events."),
                     symbol: "calendar.badge.exclamationmark", recovery: nil)
                 return
             }
@@ -293,9 +293,9 @@ final class CalendarCoordinator {
             NSApp.activate(ignoringOtherApps: true)
             guard
                 await core.confirm(
-                    title: "Join \(meeting.title)?",
+                    title: String(localized: "Join \(meeting.title)?"),
                     message: UpcomingWindow.countdown(to: meeting.start, now: Date()),
-                    symbol: link.provider.sfSymbol, confirmTitle: "Join", tone: .neutral,
+                    symbol: link.provider.sfSymbol, confirmTitle: String(localized: "Join"), tone: .neutral,
                     confirmRole: .standard, dismissTitle: "Not Now")
             else { return }
         }
@@ -303,8 +303,8 @@ final class CalendarCoordinator {
             return
         }
         _ = await core.reportFailure(
-            title: "Couldn't open the meeting link",
-            message: "Nothing on this Mac would open \(link.url.absoluteString).",
+            title: String(localized: "Couldn't open the meeting link"),
+            message: String(localized: "Nothing on this Mac would open \(link.url.absoluteString)."),
             symbol: "video.slash", recovery: nil)
     }
 

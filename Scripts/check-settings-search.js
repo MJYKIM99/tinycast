@@ -24,11 +24,17 @@ function swiftSources(dir, found = []) {
   return found;
 }
 
-const anchorSource = fs.readFileSync(path.join(ROOT, ANCHORS), "utf8");
-const catalog = fs.readFileSync(path.join(ROOT, CATALOG), "utf8");
-const source = swiftSources(path.join(ROOT, "Tinycast"))
-  .map((f) => fs.readFileSync(f, "utf8"))
-  .join("\n");
+// User-facing copy is wrapped in `String(localized:)`, which is a runtime lookup around the same
+// literal. Strip it so the matches below still see the plain string. See docs/localization.md.
+const unwrap = (text) => text.replace(/String\(localized: ("(?:[^"\\]|\\.)*")\)/g, "$1");
+
+const anchorSource = unwrap(fs.readFileSync(path.join(ROOT, ANCHORS), "utf8"));
+const catalog = unwrap(fs.readFileSync(path.join(ROOT, CATALOG), "utf8"));
+const source = unwrap(
+  swiftSources(path.join(ROOT, "Tinycast"))
+    .map((f) => fs.readFileSync(f, "utf8"))
+    .join("\n")
+);
 
 const anchorTitles = new Map();
 for (const m of anchorSource.matchAll(

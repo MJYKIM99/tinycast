@@ -64,10 +64,10 @@ final class UninstallCoordinator {
             let count = items.count == 1 ? "1 item" : "\(items.count) items"
             guard
                 await core.confirm(
-                    title: "Uninstall “\(app.name)”?",
+                    title: String(localized: "Uninstall “\(app.name)”?"),
                     message: "\(count) (\(size)) will be moved to the Trash, where you can put them "
                         + "back." + (running ? " \(app.name) will quit first." : ""),
-                    symbol: "trash", confirmTitle: "Move to Trash")
+                    symbol: "trash", confirmTitle: String(localized: "Move to Trash"))
             else { return }
 
             if running, let bundleID = app.bundleID { _ = AppLauncher.quit(bundleID: bundleID) }
@@ -100,7 +100,7 @@ final class UninstallCoordinator {
         Task {
             guard await !AppLauncher.showInfoInFinder(candidate.url) else { return }
             await core.showNotice(
-                title: "Couldn’t Open Get Info",
+                title: String(localized: "Couldn’t Open Get Info"),
                 message: "Allow Tinycast to control Finder in System Settings › Privacy & Security "
                     + "› Automation, then try again.",
                 symbol: "info.circle", tone: .danger)

@@ -26,8 +26,8 @@ struct QuickActionsSettingsView: View {
                 if appSettings.quickActionsEnabled, !isTrusted {
                     // Every shortcut fails without it; better said here than found one press later.
                     SettingsRow(
-                        title: "Accessibility permission required",
-                        subtitle: "Needed to read your selection."
+                        title: String(localized: "Accessibility permission required"),
+                        subtitle: String(localized: "Needed to read your selection.")
                     ) {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .foregroundStyle(Theme.Colors.destructive)
@@ -304,8 +304,9 @@ struct QuickActionsSettingsView: View {
         var body: some View {
             VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
                 SettingsEditorHeader(
-                    title: "Customize \(action.title)",
-                    subtitle: "Tell Tinycast how you want \(action.title) to handle your selected text."
+                    title: String(localized: "Customize \(action.title)"),
+                    subtitle: String(
+                        localized: "Tell Tinycast how you want \(action.title) to handle your selected text.")
                 )
 
                 TextEditor(text: $instructions)

@@ -132,13 +132,13 @@ enum CalcPercent {
     }
 
     private static let aggregates: [String: Aggregate] = [
-        "average": Aggregate(name: "Average") { $0.reduce(0, +) / Double($0.count) },
-        "avg": Aggregate(name: "Average") { $0.reduce(0, +) / Double($0.count) },
-        "mean": Aggregate(name: "Average") { $0.reduce(0, +) / Double($0.count) },
-        "sum": Aggregate(name: "Sum") { $0.reduce(0, +) },
-        "total": Aggregate(name: "Sum") { $0.reduce(0, +) },
-        "min": Aggregate(name: "Minimum") { $0.min() },
-        "max": Aggregate(name: "Maximum") { $0.max() }
+        "average": Aggregate(name: String(localized: "Average")) { $0.reduce(0, +) / Double($0.count) },
+        "avg": Aggregate(name: String(localized: "Average")) { $0.reduce(0, +) / Double($0.count) },
+        "mean": Aggregate(name: String(localized: "Average")) { $0.reduce(0, +) / Double($0.count) },
+        "sum": Aggregate(name: String(localized: "Sum")) { $0.reduce(0, +) },
+        "total": Aggregate(name: String(localized: "Sum")) { $0.reduce(0, +) },
+        "min": Aggregate(name: String(localized: "Minimum")) { $0.min() },
+        "max": Aggregate(name: String(localized: "Maximum")) { $0.max() }
     ]
 
     /// Each run is evaluated whole, so `sum of 2*3, 4` stays two operands.

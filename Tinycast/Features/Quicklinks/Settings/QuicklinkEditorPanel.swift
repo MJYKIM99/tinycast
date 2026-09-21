@@ -66,10 +66,10 @@ struct QuicklinkEditorPanel: View {
             VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
                 optionToggle(
                     "Show in root search", isOn: $showsInRootSearch,
-                    detail: "List this quicklink alongside apps and commands.")
+                    detail: String(localized: "List this quicklink alongside apps and commands."))
                 optionToggle(
                     "Pin to top", isOn: $isPinned,
-                    detail: "Keep it above the other quicklinks.")
+                    detail: String(localized: "Keep it above the other quicklinks."))
             }
 
             if let errorMessage {

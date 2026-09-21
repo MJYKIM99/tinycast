@@ -26,7 +26,7 @@ struct AISettingsView: View {
                     Text("Nothing is loaded or sent while it is off.")
                 }
                 SettingsRow(
-                    title: "Providers", subtitle: providerSummary, anchor: .aiProviders
+                    title: String(localized: "Providers"), subtitle: providerSummary, anchor: .aiProviders
                 ) {
                     Button("Manage…") { providersPresented = true }
                 }
@@ -184,8 +184,8 @@ struct AISettingsView: View {
         @Bindable var settings = settings
         return VStack(alignment: .leading, spacing: 0) {
             SettingsEditorHeader(
-                title: "AI Providers",
-                subtitle: "Use an installed account or connect an API endpoint."
+                title: String(localized: "AI Providers"),
+                subtitle: String(localized: "Use an installed account or connect an API endpoint.")
             )
             .padding(.horizontal, Theme.Spacing.dialogInset)
             .padding(.top, Theme.Spacing.dialogInset)

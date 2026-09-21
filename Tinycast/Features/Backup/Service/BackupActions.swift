@@ -105,12 +105,12 @@ enum BackupActions {
         do {
             let result = try await exportBackup(core: core, categories: BackupCategory.all)
             await present(
-                core: core, title: "Backup Exported", message: exportText(result),
+                core: core, title: String(localized: "Backup Exported"), message: exportText(result),
                 symbol: exportSymbol, tone: .success)
         } catch is CancellationError {
         } catch {
             await present(
-                core: core, title: "Export Failed", message: error.localizedDescription,
+                core: core, title: String(localized: "Export Failed"), message: error.localizedDescription,
                 symbol: exportSymbol)
         }
     }
@@ -124,11 +124,11 @@ enum BackupActions {
                 let summary = await applyBackup(manifest.categories, from: staging, to: core)
             else { return }
             await present(
-                core: core, title: "Backup Imported", message: summaryText(summary),
+                core: core, title: String(localized: "Backup Imported"), message: summaryText(summary),
                 symbol: importSymbol, tone: .success)
         } catch {
             await present(
-                core: core, title: "Import Failed", message: error.localizedDescription,
+                core: core, title: String(localized: "Import Failed"), message: error.localizedDescription,
                 symbol: importSymbol)
         }
     }
@@ -320,11 +320,11 @@ enum BackupActions {
             shortcuts == 1 ? "1 global shortcut" : "\(shortcuts) global shortcuts"
         // Red glyph for a real warning, plain button: importing destroys nothing.
         return await core.confirm(
-            title: "Import executable commands?",
+            title: String(localized: "Import executable commands?"),
             message:
                 "This backup contains \(commandText) and \(shortcutText). Custom commands can run "
                 + "arbitrary shell code. Only import files you trust.",
-            symbol: importSymbol, confirmTitle: "Import", confirmRole: .standard)
+            symbol: importSymbol, confirmTitle: String(localized: "Import"), confirmRole: .standard)
     }
 
     private static func dateStamp() -> String {

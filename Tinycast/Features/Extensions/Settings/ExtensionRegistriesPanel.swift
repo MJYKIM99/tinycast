@@ -14,8 +14,9 @@ struct ExtensionRegistriesPanel: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ExtensionSettingsEditorHeader(
-                title: "Registries",
-                subtitle: "Where Tinycast looks when you search for an extension to install."
+                title: String(localized: "Registries"),
+                subtitle: String(
+                    localized: "Where Tinycast looks when you search for an extension to install.")
             )
             .padding(.horizontal, Theme.Spacing.dialogInset)
             .padding(.top, Theme.Spacing.dialogInset)
@@ -121,7 +122,7 @@ struct ExtensionRegistriesPanel: View {
 
     private var buildingRow: some View {
         @Bindable var settings = core.settings
-        return SettingsRow(title: "Package manager", subtitle: packageManagerDetail) {
+        return SettingsRow(title: String(localized: "Package manager"), subtitle: packageManagerDetail) {
             Image(systemName: "shippingbox")
                 .foregroundStyle(.secondary)
         } trailing: {
@@ -151,7 +152,7 @@ struct ExtensionRegistriesPanel: View {
     /// Extra PATH folders checked before the built-in list, for a mise or Nix shim.
     private var customSearchPathsRow: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
-            SettingsRow(title: "Custom search paths") {
+            SettingsRow(title: String(localized: "Custom search paths")) {
                 Image(systemName: "folder.badge.gearshape")
                     .foregroundStyle(.secondary)
             } trailing: {

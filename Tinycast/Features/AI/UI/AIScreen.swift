@@ -21,24 +21,27 @@ struct AIScreen: PaletteScreen {
         var items: [PopoverMenuItem] = []
         if chat.isStreaming {
             items.append(
-                PopoverMenuItem(title: "Stop Response", systemImage: "stop.fill") {
+                PopoverMenuItem(title: String(localized: "Stop Response"), systemImage: "stop.fill") {
                     coordinator.stopResponse()
                 })
         }
         items.append(
-            PopoverMenuItem(title: "New Chat", systemImage: "plus.bubble") {
+            PopoverMenuItem(title: String(localized: "New Chat"), systemImage: "plus.bubble") {
                 coordinator.startNewChat()
             })
         if chat.lastAssistantText != nil {
             items.append(
-                PopoverMenuItem(title: "Copy Last Response", systemImage: "doc.on.doc", startsSection: true) {
+                PopoverMenuItem(
+                    title: String(localized: "Copy Last Response"), systemImage: "doc.on.doc",
+                    startsSection: true
+                ) {
                     coordinator.copyLastResponse()
                 })
         }
         if !chat.pendingAttachments.isEmpty {
             items.append(
                 PopoverMenuItem(
-                    title: "Remove Attachments", systemImage: "paperclip",
+                    title: String(localized: "Remove Attachments"), systemImage: "paperclip",
                     startsSection: chat.lastAssistantText == nil
                 ) {
                     coordinator.clearAttachments()
@@ -46,12 +49,13 @@ struct AIScreen: PaletteScreen {
         }
         items.append(
             PopoverMenuItem(
-                title: "Chat History", systemImage: "clock.arrow.circlepath", startsSection: true
+                title: String(localized: "Chat History"), systemImage: "clock.arrow.circlepath",
+                startsSection: true
             ) {
                 coordinator.showHistory()
             })
         items.append(
-            PopoverMenuItem(title: "AI Settings", systemImage: "slider.horizontal.3") {
+            PopoverMenuItem(title: String(localized: "AI Settings"), systemImage: "slider.horizontal.3") {
                 coordinator.showSettings()
             })
         return PopoverMenuContent(header: chat.session.title, items: items)
@@ -358,7 +362,7 @@ struct AIModelButton: View {
             title: title,
             icon: icon,
             isOpen: isOpen,
-            help: "Switch AI model",
+            help: String(localized: "Switch AI model"),
             action: action
         )
         .fixedSize(horizontal: true, vertical: false)
@@ -375,7 +379,7 @@ struct AIReasoningButton: View {
             title: title,
             systemImage: "brain",
             isOpen: isOpen,
-            help: "Change reasoning effort",
+            help: String(localized: "Change reasoning effort"),
             action: action
         )
         .fixedSize(horizontal: true, vertical: false)

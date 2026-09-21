@@ -33,9 +33,10 @@ final class ExtensionOAuthSession {
 
         var errorDescription: String? {
             switch self {
-            case .canceled: return "Authentication was canceled."
+            case .canceled: return String(localized: "Authentication was canceled.")
             case .failed(let message): return message
-            case .stateMismatch: return "OAuth state mismatch. Please try authenticating again."
+            case .stateMismatch:
+                return String(localized: "OAuth state mismatch. Please try authenticating again.")
             }
         }
     }

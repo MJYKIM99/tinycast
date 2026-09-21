@@ -14,12 +14,12 @@ enum HyperKeyPhysicalKey: String, CaseIterable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .none: return "None"
-        case .capsLock: return "Caps Lock (⇪)"
-        case .rightControl: return "Right Control (⌃)"
-        case .rightShift: return "Right Shift (⇧)"
-        case .rightOption: return "Right Option (⌥)"
-        case .rightCommand: return "Right Command (⌘)"
+        case .none: return String(localized: "None")
+        case .capsLock: return String(localized: "Caps Lock (⇪)")
+        case .rightControl: return String(localized: "Right Control (⌃)")
+        case .rightShift: return String(localized: "Right Shift (⇧)")
+        case .rightOption: return String(localized: "Right Option (⌥)")
+        case .rightCommand: return String(localized: "Right Command (⌘)")
         }
     }
 

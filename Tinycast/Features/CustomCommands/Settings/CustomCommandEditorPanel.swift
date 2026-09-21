@@ -76,16 +76,17 @@ struct CustomCommandEditorPanel: View {
             VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
                 optionToggle(
                     "Load shell environment", isOn: $loadsShellEnvironment,
-                    detail: "Resolves aliases, functions and PATH. Slower to start.")
+                    detail: String(localized: "Resolves aliases, functions and PATH. Slower to start."))
                 optionToggle(
                     "Needs confirmation", isOn: $requiresConfirmation,
-                    detail: "Ask before running this command.")
+                    detail: String(localized: "Ask before running this command."))
                 optionToggle(
                     "Show confirmation", isOn: $showsConfirmation,
-                    detail: "Confirm on screen after the command succeeds.")
+                    detail: String(localized: "Confirm on screen after the command succeeds."))
                 optionToggle(
                     "Show output", isOn: $showsOutput,
-                    detail: "Open a window with everything the command printed when it finishes.")
+                    detail: String(
+                        localized: "Open a window with everything the command printed when it finishes."))
             }
 
             if let errorMessage {

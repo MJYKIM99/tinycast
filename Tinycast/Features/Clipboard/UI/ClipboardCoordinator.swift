@@ -106,9 +106,11 @@ final class ClipboardCoordinator {
     func deleteAllClips() async {
         guard
             await core.confirm(
-                title: "Delete All Entries",
-                message: "Are you sure you want to proceed with deleting all clipboard history entries?",
-                symbol: PaletteMode.clipboard.systemImage, confirmTitle: "Delete All")
+                title: String(localized: "Delete All Entries"),
+                message: String(
+                    localized: "Are you sure you want to proceed with deleting all clipboard history entries?"
+                ),
+                symbol: PaletteMode.clipboard.systemImage, confirmTitle: String(localized: "Delete All"))
         else { return }
         clearHistory()
     }

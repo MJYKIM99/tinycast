@@ -143,16 +143,16 @@ struct OnboardingView: View {
         return VStack(alignment: .leading, spacing: Theme.Spacing.md) {
             OnboardingCard {
                 OnboardingRow(
-                    title: "App Launcher",
-                    subtitle: "Press this shortcut to open Tinycast.",
+                    title: String(localized: "App Launcher"),
+                    subtitle: String(localized: "Press this shortcut to open Tinycast."),
                     systemImage: "magnifyingglass", tint: .blue
                 ) {
                     ShortcutRecorder(action: .togglePalette)
                 }
                 OnboardingDivider()
                 OnboardingRow(
-                    title: "Launch at login",
-                    subtitle: "Start Tinycast automatically when you log in.",
+                    title: String(localized: "Launch at login"),
+                    subtitle: String(localized: "Start Tinycast automatically when you log in."),
                     systemImage: "power", tint: .green
                 ) {
                     Toggle("", isOn: $settings.launchAtLogin)
@@ -167,9 +167,11 @@ struct OnboardingView: View {
         VStack(alignment: .leading, spacing: Theme.Spacing.md) {
             OnboardingCard {
                 OnboardingRow(
-                    title: "Accessibility",
+                    title: String(localized: "Accessibility"),
                     subtitle:
-                        "Allows pasting clipboard items and expanded snippets into active apps.",
+                        String(
+                            localized:
+                                "Allows pasting clipboard items and expanded snippets into active apps."),
                     systemImage: "accessibility", tint: .blue
                 ) {
                     statusBadge
@@ -183,7 +185,7 @@ struct OnboardingView: View {
         VStack(alignment: .leading, spacing: Theme.Spacing.md) {
             OnboardingCard {
                 OnboardingRow(
-                    title: "Raycast Export",
+                    title: String(localized: "Raycast Export"),
                     subtitle: model.fileSubtitle,
                     systemImage: "doc.badge.gearshape", tint: .orange
                 ) {
@@ -191,8 +193,8 @@ struct OnboardingView: View {
                 }
                 OnboardingDivider()
                 OnboardingRow(
-                    title: "Passphrase",
-                    subtitle: "The password you set when exporting from Raycast.",
+                    title: String(localized: "Passphrase"),
+                    subtitle: String(localized: "The password you set when exporting from Raycast."),
                     systemImage: "key", tint: .gray
                 ) {
                     SecureField("Passphrase", text: $model.passphrase)

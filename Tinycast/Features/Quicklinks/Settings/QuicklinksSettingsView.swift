@@ -66,7 +66,7 @@ struct QuicklinksSettingsView: View {
     private var library: some View {
         Section {
             if !store.quicklinks.isEmpty {
-                SettingsFilterField(prompt: "Search quicklinks…", query: $query)
+                SettingsFilterField(prompt: String(localized: "Search quicklinks…"), query: $query)
             }
             if results.isEmpty {
                 Text(

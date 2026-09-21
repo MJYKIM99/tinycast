@@ -12,12 +12,12 @@ enum ColorFormat: CaseIterable, Hashable, Sendable {
     /// The menu row's label; the rendered value is its trailing text.
     var title: String {
         switch self {
-        case .hex: return "Hex"
-        case .hexWithAlpha: return "Hex with Alpha"
-        case .rgba: return "RGBA"
-        case .hsl: return "HSL"
-        case .hslWithAlpha: return "HSL with Alpha"
-        case .oklch: return "Oklch"
+        case .hex: return String(localized: "Hex")
+        case .hexWithAlpha: return String(localized: "Hex with Alpha")
+        case .rgba: return String(localized: "RGBA")
+        case .hsl: return String(localized: "HSL")
+        case .hslWithAlpha: return String(localized: "HSL with Alpha")
+        case .oklch: return String(localized: "Oklch")
         }
     }
 

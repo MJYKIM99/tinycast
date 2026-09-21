@@ -234,10 +234,12 @@ private struct SnippetEditorPanel: View {
             SettingsEditorHeader(title: record == nil ? "Add Snippet" : "Edit Snippet")
 
             field(
-                title: "Name", placeholder: "Email Sign-off", text: $name,
+                title: String(localized: "Name"), placeholder: String(localized: "Email Sign-off"),
+                text: $name,
                 hint: "Required. Shown in the library and launcher.")
             field(
-                title: "Keyword", placeholder: "Optional, for example !notes", text: $keyword,
+                title: String(localized: "Keyword"),
+                placeholder: String(localized: "Optional, for example !notes"), text: $keyword,
                 hint: "Optional. Type this to expand the snippet.")
 
             templateEditor
@@ -245,10 +247,10 @@ private struct SnippetEditorPanel: View {
             VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
                 optionToggle(
                     "Enabled", isOn: $isEnabled,
-                    detail: "Disabled snippets cannot be expanded.")
+                    detail: String(localized: "Disabled snippets cannot be expanded."))
                 optionToggle(
                     "Show confirmation", isOn: $showsConfirmation,
-                    detail: "Confirm on screen after this snippet is inserted.")
+                    detail: String(localized: "Confirm on screen after this snippet is inserted."))
             }
 
             if let errorMessage {

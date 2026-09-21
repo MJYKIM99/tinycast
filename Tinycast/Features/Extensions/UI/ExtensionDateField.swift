@@ -27,7 +27,7 @@ struct ExtensionDateField: View {
     private var isFocused: Bool { focus == index }
 
     private var label: String {
-        guard let value else { return "No Date" }
+        guard let value else { return String(localized: "No Date") }
         return ExtensionDateExpression.detail(
             for: value, calendar: .current, includesTime: includesTime)
     }
@@ -112,7 +112,8 @@ struct ExtensionDateField: View {
                 .foregroundStyle(Theme.Colors.textSecondary)
             // While the list is open the control is the expression field, caret and all.
             if open {
-                ExtensionQueryText(query: query, prompt: "tomorrow at 10am", phase: typedAt)
+                ExtensionQueryText(
+                    query: query, prompt: String(localized: "tomorrow at 10am"), phase: typedAt)
             } else {
                 Text(label)
                     .font(metrics.typography.rowTitle)

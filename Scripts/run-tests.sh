@@ -502,6 +502,10 @@ run settings-history-test  Tinycast/Features/Settings/SettingsTab.swift \
                            Tinycast/Features/Settings/SettingsNavigationState.swift \
                            Tinycast/Features/Settings/SettingsSearchCatalog.swift \
                            $L/SearchRelevance.swift
+
+# The shipped translation tables are data, so nothing else reads them: a dropped format specifier or a
+# key spelled with the wrong quote character is silent at runtime. See docs/localization.md.
+run l10n-test -parse-as-library
 run updates-test           Tinycast/Features/Updates/Model/*.swift \
                            Tinycast/Features/Updates/Service/BundleSignature.swift
 run support-test           Tinycast/Features/Support/Model/*.swift

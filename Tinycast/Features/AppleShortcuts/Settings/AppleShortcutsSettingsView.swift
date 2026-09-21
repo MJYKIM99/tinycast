@@ -40,7 +40,7 @@ struct AppleShortcutsSettingsView: View {
 
     private var library: some View {
         Section {
-            SettingsFilterField(prompt: "Search shortcuts…", query: $query)
+            SettingsFilterField(prompt: String(localized: "Search shortcuts…"), query: $query)
             LauncherItemsList(entries: entries, query: query, isEnabled: true)
             Button("Open Shortcuts") { core.appleShortcutCoordinator.openShortcutsApp() }
         } header: {

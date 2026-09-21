@@ -23,7 +23,7 @@ struct UninstallScreen: PaletteScreen {
     private var summary: String {
         let total = session.plan?.removableIDs.count ?? 0
         let size = MeasuredSize(bytes: session.selectedBytes).formatted
-        return "\(session.selectedCount) of \(total) files selected · \(size)"
+        return String(localized: "\(session.selectedCount) of \(total) files selected · \(size)")
     }
 
     private func candidate(at selection: Int) -> UninstallCandidate? {
@@ -95,7 +95,7 @@ enum UninstallActionsMenu {
         if session.canConfirm {
             items.append(
                 PopoverMenuItem(
-                    title: "Uninstall Application", systemImage: "trash", shortcut: "↵",
+                    title: String(localized: "Uninstall Application"), systemImage: "trash", shortcut: "↵",
                     isDestructive: true
                 ) { core.uninstallCoordinator.performUninstall() })
         }
@@ -110,16 +110,21 @@ enum UninstallActionsMenu {
         }
         items.append(
             PopoverMenuItem(
-                title: "Copy Path", systemImage: "doc.on.clipboard", startsSection: true, shortcut: "⌥⌘C"
+                title: String(localized: "Copy Path"), systemImage: "doc.on.clipboard", startsSection: true,
+                shortcut: "⌥⌘C"
             ) {
                 core.uninstallCoordinator.copyUninstallPath(candidate)
             })
         items.append(
-            PopoverMenuItem(title: "Show in Finder", systemImage: "folder", shortcut: "⇧⌘O") {
+            PopoverMenuItem(
+                title: String(localized: "Show in Finder"), systemImage: "folder", shortcut: "⇧⌘O"
+            ) {
                 core.uninstallCoordinator.showUninstallItemInFinder(candidate)
             })
         items.append(
-            PopoverMenuItem(title: "Show Info in Finder", systemImage: "info.circle", shortcut: "⇧⌘I") {
+            PopoverMenuItem(
+                title: String(localized: "Show Info in Finder"), systemImage: "info.circle", shortcut: "⇧⌘I"
+            ) {
                 core.uninstallCoordinator.showUninstallItemInfo(candidate)
             })
         return PopoverMenuContent(header: session.app?.name ?? candidate.name, items: items)

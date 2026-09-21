@@ -1,0 +1,7 @@
+/* The permission prompts and type names macOS reads out of the bundle. Keys are Info.plist keys,
+   and only the values a person can be shown are listed. */
+"NSAppleEventsUsageDescription" = "Tinycast 使用自动化来执行你明确运行的系统操作。";
+"NSBluetoothAlwaysUsageDescription" = "Tinycast 仅在你运行“切换蓝牙”操作时使用蓝牙。";
+"NSCalendarsFullAccessUsageDescription" = "Tinycast 会读取今天和明天的日程，让你可以直接从面板加入会议。";
+"NSCameraUsageDescription" = "Tinycast 会显示摄像头预览，方便你查看自己，并可将照片存入剪贴板。";
+"UTTypeDescription" = "Tinycast 备份";

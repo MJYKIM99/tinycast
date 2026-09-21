@@ -31,7 +31,9 @@ enum AppActionsMenu {
         ]
         if app.canRevealInFinder {
             items.append(
-                PopoverMenuItem(title: "Show in Finder", systemImage: "folder", shortcut: "⌘↵") {
+                PopoverMenuItem(
+                    title: String(localized: "Show in Finder"), systemImage: "folder", shortcut: "⌘↵"
+                ) {
                     core.launcherCoordinator.showInFinder(app)
                 })
         }
@@ -47,7 +49,7 @@ enum AppActionsMenu {
         if favorites.canMoveUp {
             items.append(
                 PopoverMenuItem(
-                    title: "Move Favorite Up", systemImage: "arrow.up", shortcut: "⌥⌘↑"
+                    title: String(localized: "Move Favorite Up"), systemImage: "arrow.up", shortcut: "⌥⌘↑"
                 ) {
                     favorites.move(-1)
                 })
@@ -55,34 +57,37 @@ enum AppActionsMenu {
         if favorites.canMoveDown {
             items.append(
                 PopoverMenuItem(
-                    title: "Move Favorite Down", systemImage: "arrow.down", shortcut: "⌥⌘↓"
+                    title: String(localized: "Move Favorite Down"), systemImage: "arrow.down", shortcut: "⌥⌘↓"
                 ) {
                     favorites.move(1)
                 })
         }
         if core.launcherRanking.hasRanking(for: app.preferenceKey) {
             items.append(
-                PopoverMenuItem(title: "Reset Ranking", systemImage: "arrow.counterclockwise") {
+                PopoverMenuItem(
+                    title: String(localized: "Reset Ranking"), systemImage: "arrow.counterclockwise"
+                ) {
                     onResetRanking()
                 })
         }
         if isPersistent, app.canHideFromSearch {
             items.append(
                 PopoverMenuItem(
-                    title: "Hide from Search", systemImage: "eye.slash", shortcut: "⇧⌘H",
+                    title: String(localized: "Hide from Search"), systemImage: "eye.slash", shortcut: "⇧⌘H",
                     action: onHideFromSearch))
         }
         if running, app.kind == .application {
             items.append(
                 PopoverMenuItem(
-                    title: "Restart Application", systemImage: "arrow.clockwise", startsSection: true,
+                    title: String(localized: "Restart Application"), systemImage: "arrow.clockwise",
+                    startsSection: true,
                     shortcut: "⌘R"
                 ) {
                     core.launcherCoordinator.restart(app)
                 })
             items.append(
                 PopoverMenuItem(
-                    title: "Quit Application", systemImage: "power", shortcut: "⌃⇧Q",
+                    title: String(localized: "Quit Application"), systemImage: "power", shortcut: "⌃⇧Q",
                     isDestructive: true
                 ) {
                     core.launcherCoordinator.quit(app)
@@ -91,7 +96,8 @@ enum AppActionsMenu {
         if app.kind == .application {
             items.append(
                 PopoverMenuItem(
-                    title: "Uninstall Application", systemImage: "trash", startsSection: true,
+                    title: String(localized: "Uninstall Application"), systemImage: "trash",
+                    startsSection: true,
                     isDestructive: true
                 ) {
                     core.uninstallCoordinator.beginUninstall(app)
@@ -109,19 +115,24 @@ enum AppActionsMenu {
                     })
                 if enabled {
                     items.append(
-                        PopoverMenuItem(title: "Refresh Now", systemImage: "arrow.clockwise") {
+                        PopoverMenuItem(
+                            title: String(localized: "Refresh Now"), systemImage: "arrow.clockwise"
+                        ) {
                             core.extensions.refreshNow(app)
                         })
                 }
             }
             items.append(
                 PopoverMenuItem(
-                    title: "Configure Extension", systemImage: "slider.horizontal.3", startsSection: true
+                    title: String(localized: "Configure Extension"), systemImage: "slider.horizontal.3",
+                    startsSection: true
                 ) {
                     core.extensionCoordinator.showExtensionSettings(for: app)
                 })
             items.append(
-                PopoverMenuItem(title: "Uninstall Extension", systemImage: "trash", isDestructive: true) {
+                PopoverMenuItem(
+                    title: String(localized: "Uninstall Extension"), systemImage: "trash", isDestructive: true
+                ) {
                     core.extensionCoordinator.confirmUninstall(app)
                 })
         }

@@ -41,7 +41,8 @@ struct CustomQuickActionEditorPanel: View {
         VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
             SettingsEditorHeader(
                 title: existing == nil ? "New Quick Action" : "Edit \(existing?.name ?? "")",
-                subtitle: "Tinycast sends your selected text to the model with these instructions."
+                subtitle: String(
+                    localized: "Tinycast sends your selected text to the model with these instructions.")
             )
 
             HStack(alignment: .bottom, spacing: Theme.Spacing.lg) {

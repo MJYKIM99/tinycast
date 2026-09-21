@@ -299,7 +299,7 @@ final class ExtensionMenuBarController: NSObject, NSMenuDelegate {
 
     func menuNeedsUpdate(_ menu: NSMenu) {
         if menu.items.isEmpty {
-            let loading = NSMenuItem(title: "Loading…", action: nil, keyEquivalent: "")
+            let loading = NSMenuItem(title: String(localized: "Loading…"), action: nil, keyEquivalent: "")
             loading.isEnabled = false
             menu.addItem(loading)
         }

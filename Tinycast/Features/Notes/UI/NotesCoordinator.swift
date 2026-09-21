@@ -279,10 +279,10 @@ final class NotesCoordinator {
         runOperation { [weak self] generation in
             guard let self else { return }
             let confirmed = await core.confirm(
-                title: "Move “\(title)” to Trash?",
-                message: "You can recover it from the Trash in Finder.",
+                title: String(localized: "Move “\(title)” to Trash?"),
+                message: String(localized: "You can recover it from the Trash in Finder."),
                 symbol: nil,
-                confirmTitle: "Move to Trash")
+                confirmTitle: String(localized: "Move to Trash"))
             guard confirmed, settings.notesEnabled, !Task.isCancelled else { return }
             let switcherOrder = visibleNotes.map(\.id)
             let removed = await store.trash(id)
@@ -449,21 +449,21 @@ final class NotesCoordinator {
             switch issue {
             case .load(let failure):
                 let retry = await core.reportFailure(
-                    title: "Couldn't Open Note",
+                    title: String(localized: "Couldn't Open Note"),
                     message: failure.localizedDescription,
                     symbol: "text.page",
                     recovery: "Retry")
                 if retry { _ = await store.reload() }
             case .save(let failure):
                 let retry = await core.reportFailure(
-                    title: "Couldn't Save Note",
+                    title: String(localized: "Couldn't Save Note"),
                     message: failure.localizedDescription,
                     symbol: "text.page",
                     recovery: "Retry")
                 if retry { await store.retrySave() }
             case .operation(let failure):
                 _ = await core.reportFailure(
-                    title: "Couldn't Update Note",
+                    title: String(localized: "Couldn't Update Note"),
                     message: failure.localizedDescription,
                     symbol: "text.page",
                     recovery: nil)

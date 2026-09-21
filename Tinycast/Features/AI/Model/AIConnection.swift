@@ -11,11 +11,11 @@ enum AIProviderKind: String, CaseIterable, Codable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .openAI: return "OpenAI API"
-        case .anthropic: return "Anthropic Claude"
-        case .gemini: return "Google Gemini"
-        case .openRouter: return "OpenRouter"
-        case .openAICompatible: return "OpenAI Compatible"
+        case .openAI: return String(localized: "OpenAI API")
+        case .anthropic: return String(localized: "Anthropic Claude")
+        case .gemini: return String(localized: "Google Gemini")
+        case .openRouter: return String(localized: "OpenRouter")
+        case .openAICompatible: return String(localized: "OpenAI Compatible")
         }
     }
 
@@ -331,8 +331,9 @@ enum AIEndpointPolicy {
 
         var errorDescription: String? {
             switch self {
-            case .invalidURL: return "Enter a valid provider base URL."
-            case .insecureRemoteURL: return "Remote AI providers require an HTTPS base URL."
+            case .invalidURL: return String(localized: "Enter a valid provider base URL.")
+            case .insecureRemoteURL:
+                return String(localized: "Remote AI providers require an HTTPS base URL.")
             }
         }
     }

@@ -23,7 +23,7 @@ struct GeneralSettingsView: View {
         @Bindable var settings = settings
         return Form {
             Section {
-                SettingsRow(title: "App Launcher", anchor: .generalGlobalShortcuts) {
+                SettingsRow(title: String(localized: "App Launcher"), anchor: .generalGlobalShortcuts) {
                     ShortcutRecorder(action: .togglePalette)
                 }
             } header: {
@@ -215,8 +215,8 @@ private struct InterfaceSizeRow: View {
 
     var body: some View {
         SettingsRow(
-            title: "Interface size",
-            subtitle: "Scales the launcher and its panels, not Settings.",
+            title: String(localized: "Interface size"),
+            subtitle: String(localized: "Scales the launcher and its panels, not Settings."),
             anchor: .generalAppearance
         ) {
             HStack(spacing: Theme.Spacing.xxs) {
@@ -266,7 +266,7 @@ private struct PaletteTransparencyRow: View {
     }
 
     var body: some View {
-        SettingsRow(title: "Background transparency", anchor: .generalAppearance) {
+        SettingsRow(title: String(localized: "Background transparency"), anchor: .generalAppearance) {
             Slider(
                 value: value, in: -100...100, step: 50, neutralValue: 0,
                 label: { EmptyView() },

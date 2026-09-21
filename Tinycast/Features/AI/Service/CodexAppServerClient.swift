@@ -12,10 +12,10 @@ final class CodexAppServerClient {
         var errorDescription: String? {
             switch self {
             case .executableMissing:
-                return "Install the Codex CLI to use your Codex account."
-            case .launchFailed(let detail): return "Codex could not start: \(detail)"
+                return String(localized: "Install the Codex CLI to use your Codex account.")
+            case .launchFailed(let detail): return String(localized: "Codex could not start: \(detail)")
             case .processExited(let detail), .requestFailed(let detail): return detail
-            case .timedOut: return "Codex did not respond in time."
+            case .timedOut: return String(localized: "Codex did not respond in time.")
             }
         }
     }
@@ -248,7 +248,7 @@ final class CodexAppServerClient {
         default:
             try? send(
                 CodexAppServerProtocol.errorResponse(
-                    id: id, message: "Tinycast does not expose Codex tools."))
+                    id: id, message: String(localized: "Tinycast does not expose Codex tools.")))
             return
         }
         try? send(CodexAppServerProtocol.response(id: id, result: result))

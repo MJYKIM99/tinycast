@@ -38,12 +38,13 @@ struct ExtensionRegistry: Codable, Identifiable, Hashable, Sendable {
     /// Searched first, and the only source that needs no toolchain.
     static let store = ExtensionRegistry(
         id: UUID(uuidString: "00000000-0000-0000-0000-000000000001")!,
-        kind: .raycastStore, name: "Raycast Store")
+        kind: .raycastStore, name: String(localized: "Raycast Store"))
 
     /// The fallback if the store's endpoint goes; off by default, since it serves source.
     static let officialGitHub = ExtensionRegistry(
         id: UUID(uuidString: "00000000-0000-0000-0000-000000000002")!,
-        kind: .github, name: "raycast/extensions", owner: "raycast", repository: "extensions",
+        kind: .github, name: String(localized: "raycast/extensions"), owner: "raycast",
+        repository: "extensions",
         path: "extensions", ref: "main", isEnabled: false)
 
     static let defaults: [ExtensionRegistry] = [.store, .officialGitHub]
@@ -54,8 +55,8 @@ struct ExtensionRegistry: Codable, Identifiable, Hashable, Sendable {
     /// Said under a heading that already names the kind, so it carries what differs between rows.
     var subtitle: String {
         switch kind {
-        case .raycastStore: return "Installs without Node or a package manager."
-        case .github: return "\(owner)/\(repository) at \(ref)"
+        case .raycastStore: return String(localized: "Installs without Node or a package manager.")
+        case .github: return String(localized: "\(owner)/\(repository) at \(ref)")
         }
     }
 

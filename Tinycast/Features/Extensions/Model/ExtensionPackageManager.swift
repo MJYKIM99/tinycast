@@ -12,11 +12,11 @@ enum ExtensionPackageManager: String, CaseIterable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .automatic: return "Automatic"
-        case .pnpm: return "pnpm"
-        case .npm: return "npm"
-        case .yarn: return "Yarn"
-        case .bun: return "Bun"
+        case .automatic: return String(localized: "Automatic")
+        case .pnpm: return String(localized: "pnpm")
+        case .npm: return String(localized: "npm")
+        case .yarn: return String(localized: "Yarn")
+        case .bun: return String(localized: "Bun")
         }
     }
 

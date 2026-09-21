@@ -51,7 +51,8 @@ struct CalendarMenuBarMenu: View {
                 Button {
                     AppCore.shared.calendarCoordinator.join(meeting)
                 } label: {
-                    MeetingMenuLabel(title: "Join \(meeting.title)", color: meeting.calendarColor)
+                    MeetingMenuLabel(
+                        title: String(localized: "Join \(meeting.title)"), color: meeting.calendarColor)
                 }
             }
             Button {
@@ -59,7 +60,7 @@ struct CalendarMenuBarMenu: View {
             } label: {
                 // Only the first item names the meeting, so only it carries the calendar bar.
                 MeetingMenuLabel(
-                    title: "Open in Calendar...",
+                    title: String(localized: "Open in Calendar..."),
                     color: meeting.link == nil ? meeting.calendarColor : nil)
             }
             Divider()

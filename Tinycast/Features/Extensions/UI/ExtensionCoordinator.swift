@@ -48,12 +48,13 @@ final class ExtensionCoordinator {
         Task {
             guard
                 await core.confirm(
-                    title: "Enable extensions?",
+                    title: String(localized: "Enable extensions?"),
                     message:
                         "Extensions are third-party JavaScript, run on this Mac. A running command "
                         + "holds a JavaScript engine in memory until you leave it — expect Tinycast "
                         + "to use noticeably more RAM while one is open.",
-                    symbol: "puzzlepiece.extension", confirmTitle: "Enable", tone: .neutral,
+                    symbol: "puzzlepiece.extension", confirmTitle: String(localized: "Enable"),
+                    tone: .neutral,
                     confirmRole: .standard)
             else { return }
 
@@ -109,11 +110,11 @@ final class ExtensionCoordinator {
         Task {
             guard
                 await core.confirm(
-                    title: "Uninstall \(owner.title)?",
+                    title: String(localized: "Uninstall \(owner.title)?"),
                     message:
                         "Removes the extension and everything it stored — its preferences, its cache "
                         + "and its own files. Its commands leave the launcher.",
-                    symbol: "trash", confirmTitle: "Uninstall")
+                    symbol: "trash", confirmTitle: String(localized: "Uninstall"))
             else { return }
             await extensions.uninstall(owner)
         }
@@ -125,11 +126,11 @@ final class ExtensionCoordinator {
         let size = ExtensionCleanup.formatted(bytes: report.bytes)
         guard
             await core.confirm(
-                title: "Clean up \(size)?",
+                title: String(localized: "Clean up \(size)?"),
                 message:
                     "Removes build files left by an interrupted install, and the storage of "
                     + "extensions that are no longer installed. Installed extensions are untouched.",
-                symbol: "trash", confirmTitle: "Clean Up")
+                symbol: "trash", confirmTitle: String(localized: "Clean Up"))
         else { return }
 
         let installed = Set(extensions.installed.map(\.manifest.name))

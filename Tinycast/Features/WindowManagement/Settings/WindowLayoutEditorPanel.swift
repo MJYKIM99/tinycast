@@ -70,7 +70,7 @@ struct WindowLayoutEditorPanel: View {
     }
 
     private var title: String {
-        if request.isCapture { return "Capture Window Layout" }
+        if request.isCapture { return String(localized: "Capture Window Layout") }
         return request.layout == nil ? "New Window Layout" : "Edit Window Layout"
     }
 

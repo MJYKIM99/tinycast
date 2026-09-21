@@ -105,8 +105,8 @@ final class CustomCommandCoordinator {
         }.value
         guard !drafts.isEmpty else {
             await core.showNotice(
-                title: "Nothing to Import",
-                message: "No Raycast script commands were found in this folder.",
+                title: String(localized: "Nothing to Import"),
+                message: String(localized: "No Raycast script commands were found in this folder."),
                 symbol: CustomCommand.sfSymbol, tone: .neutral)
             return
         }
@@ -115,13 +115,13 @@ final class CustomCommandCoordinator {
         // Everything offered was already here, so say so rather than "0 imported".
         guard added > 0 else {
             await core.showNotice(
-                title: "Nothing to Import",
-                message: "Every script in this folder is already in your library.",
+                title: String(localized: "Nothing to Import"),
+                message: String(localized: "Every script in this folder is already in your library."),
                 symbol: CustomCommand.sfSymbol, tone: .neutral)
             return
         }
         await core.showNotice(
-            title: "Scripts Imported",
+            title: String(localized: "Scripts Imported"),
             message: importSummary(added: added, offered: drafts.count),
             symbol: CustomCommand.sfSymbol, tone: .success)
     }
@@ -146,7 +146,7 @@ final class CustomCommandCoordinator {
             message:
                 "Imported commands run these files with your user account. Only import scripts you "
                 + "trust.",
-            symbol: CustomCommand.sfSymbol, confirmTitle: "Import", confirmRole: .standard)
+            symbol: CustomCommand.sfSymbol, confirmTitle: String(localized: "Import"), confirmRole: .standard)
     }
 
     private func importSummary(added: Int, offered: Int) -> String {
@@ -203,8 +203,9 @@ final class CustomCommandCoordinator {
                     // Neutral, not destructive: their own command just wants a second tap.
                     await core.confirm(
                         title: command.name,
-                        message: "Are you sure you want to run this command?\n\n\(command.command)",
-                        symbol: command.symbol, confirmTitle: "Run",
+                        message: String(
+                            localized: "Are you sure you want to run this command?\n\n\(command.command)"),
+                        symbol: command.symbol, confirmTitle: String(localized: "Run"),
                         tone: .neutral, confirmRole: .standard)
                 else { return }
             }
@@ -280,7 +281,7 @@ final class CustomCommandCoordinator {
         let hint = shellEnvironmentHint(command: command, result: result)
         guard
             await core.reportFailure(
-                title: "“\(command.name)” Failed",
+                title: String(localized: "“\(command.name)” Failed"),
                 message: failureMessage(command: command, result: result),
                 symbol: command.symbol, recovery: hint == nil ? nil : "Open Settings…")
         else { return }
@@ -289,8 +290,8 @@ final class CustomCommandCoordinator {
 
     private func summary(of result: ShellCommandResult) -> String {
         switch result.termination {
-        case .launchFailed: return "The shell could not be started."
-        case .stopped: return "Stopped"
+        case .launchFailed: return String(localized: "The shell could not be started.")
+        case .stopped: return String(localized: "Stopped")
         case .exited(let status):
             return status == 0 ? "Finished successfully." : "The command exited with status \(status)."
         }

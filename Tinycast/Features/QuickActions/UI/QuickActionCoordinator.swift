@@ -73,12 +73,12 @@ final class QuickActionCoordinator {
         Task {
             guard
                 await core.confirm(
-                    title: "Enable Quick Actions?",
+                    title: String(localized: "Enable Quick Actions?"),
                     message:
                         "Tinycast needs the Accessibility permission to read the text you have "
                         + "selected in other apps and replace it. Nothing is read until you press "
                         + "a shortcut.",
-                    symbol: "wand.and.sparkles", confirmTitle: "Continue", tone: .neutral,
+                    symbol: "wand.and.sparkles", confirmTitle: String(localized: "Continue"), tone: .neutral,
                     confirmRole: .standard)
             else { return }
             settings.quickActionsEnabled = true
@@ -121,9 +121,9 @@ final class QuickActionCoordinator {
         guard let action = customActions.action(id: id) else { return }
         guard
             await core.confirm(
-                title: "Delete “\(action.name)”?",
-                message: "Its instructions, shortcut and learned ranking go with it.",
-                symbol: action.symbol, confirmTitle: "Delete")
+                title: String(localized: "Delete “\(action.name)”?"),
+                message: String(localized: "Its instructions, shortcut and learned ranking go with it."),
+                symbol: action.symbol, confirmTitle: String(localized: "Delete"))
         else { return }
         // Unwound only once the row is gone, so a kept record never loses its shortcut.
         do {
@@ -137,7 +137,7 @@ final class QuickActionCoordinator {
     private func report(_ error: CustomQuickActionError) {
         Task {
             await core.showNotice(
-                title: "Couldn’t Save the Change", message: error.localizedDescription,
+                title: String(localized: "Couldn’t Save the Change"), message: error.localizedDescription,
                 symbol: CustomQuickAction.sfSymbol, tone: .danger)
         }
     }
@@ -212,7 +212,7 @@ final class QuickActionCoordinator {
         Task {
             guard
                 await core.reportFailure(
-                    title: "Quick Actions can't read your selection",
+                    title: String(localized: "Quick Actions can't read your selection"),
                     message:
                         "Tinycast needs the Accessibility permission to read the text you have "
                         + "selected and replace it. If Tinycast is already listed, switch it off "

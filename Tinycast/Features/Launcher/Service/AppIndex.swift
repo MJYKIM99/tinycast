@@ -20,69 +20,69 @@ struct AppEntry: Identifiable, Hashable, Sendable {
             switch self {
             case .application:
                 return KindDescriptor(
-                    label: "Application", sectionTitle: "Applications",
+                    label: String(localized: "Application"), sectionTitle: "Applications",
                     openVerb: "Open Application", canHideFromSearch: true,
                     canRevealInFinder: true, isSymbolIcon: false)
             case .systemSettings:
                 return KindDescriptor(
-                    label: "System Setting", sectionTitle: "System Settings",
+                    label: String(localized: "System Setting"), sectionTitle: "System Settings",
                     openVerb: "Open System Setting", canHideFromSearch: true,
                     canRevealInFinder: true, isSymbolIcon: false)
             case .command:
                 return KindDescriptor(
-                    label: "Command", sectionTitle: "Commands",
+                    label: String(localized: "Command"), sectionTitle: "Commands",
                     openVerb: "Run Command", canHideFromSearch: true,
                     canRevealInFinder: false, isSymbolIcon: true)
             case .quickAction:
                 return KindDescriptor(
-                    label: "Quick Action", sectionTitle: "Quick Actions",
+                    label: String(localized: "Quick Action"), sectionTitle: "Quick Actions",
                     openVerb: "Run Quick Action", canHideFromSearch: true,
                     canRevealInFinder: false, isSymbolIcon: true)
             case .customCommand:
                 return KindDescriptor(
-                    label: "Custom Command", sectionTitle: "Custom Commands",
+                    label: String(localized: "Custom Command"), sectionTitle: "Custom Commands",
                     openVerb: "Run Custom Command", canHideFromSearch: false,
                     canRevealInFinder: false, isSymbolIcon: true)
             case .snippet:
                 return KindDescriptor(
-                    label: "Snippet", sectionTitle: "Snippets",
+                    label: String(localized: "Snippet"), sectionTitle: "Snippets",
                     openVerb: "Paste Snippet", canHideFromSearch: false,
                     canRevealInFinder: true, isSymbolIcon: true)
             case .systemAction:
                 return KindDescriptor(
-                    label: "System Action", sectionTitle: "System Actions",
+                    label: String(localized: "System Action"), sectionTitle: "System Actions",
                     openVerb: "Run System Action", canHideFromSearch: true,
                     canRevealInFinder: false, isSymbolIcon: true)
             case .windowCommand:
                 return KindDescriptor(
-                    label: "Window Command", sectionTitle: "Window Management",
+                    label: String(localized: "Window Command"), sectionTitle: "Window Management",
                     openVerb: "Move Window", canHideFromSearch: true,
                     canRevealInFinder: false, isSymbolIcon: true)
             case .windowLayout:
                 return KindDescriptor(
-                    label: "Window Layout", sectionTitle: "Window Layouts",
+                    label: String(localized: "Window Layout"), sectionTitle: "Window Layouts",
                     openVerb: "Arrange Windows", canHideFromSearch: true,
                     canRevealInFinder: false, isSymbolIcon: true)
             case .quicklink:
                 return KindDescriptor(
-                    label: "Quicklink", sectionTitle: "Quicklinks",
+                    label: String(localized: "Quicklink"), sectionTitle: "Quicklinks",
                     openVerb: "Open Quicklink", canHideFromSearch: false,
                     canRevealInFinder: false, isSymbolIcon: true)
             case .appleShortcut:
                 // File-backed so every row draws the Shortcuts app's own icon.
                 return KindDescriptor(
-                    label: "Apple Shortcut", sectionTitle: "Apple Shortcuts",
+                    label: String(localized: "Apple Shortcut"), sectionTitle: "Apple Shortcuts",
                     openVerb: "Run Shortcut", canHideFromSearch: true,
                     canRevealInFinder: false, isSymbolIcon: false)
             case .extensionCommand:
                 // The label is per-entry, the owning extension's title; this is the fallback.
                 return KindDescriptor(
-                    label: "Extension", sectionTitle: "Extensions",
+                    label: String(localized: "Extension"), sectionTitle: "Extensions",
                     openVerb: "Run Command", canHideFromSearch: true,
                     canRevealInFinder: false, isSymbolIcon: true)
             case .meeting:
                 return KindDescriptor(
-                    label: "Meeting", sectionTitle: "Meetings",
+                    label: String(localized: "Meeting"), sectionTitle: "Meetings",
                     openVerb: "Join Meeting", canHideFromSearch: false,
                     canRevealInFinder: false, isSymbolIcon: true)
             }

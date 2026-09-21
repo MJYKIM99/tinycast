@@ -72,7 +72,7 @@ struct ExtensionActionsPanel: View {
                 .frame(height: Theme.Size.hairline)
                 .accessibilityHidden(true)
             ExtensionMenuSearchField(
-                placeholder: "Search for actions…", height: panel.rowHeight,
+                placeholder: String(localized: "Search for actions…"), height: panel.rowHeight,
                 verticalOffset: -metrics.spacing.xxs / 2)
         }
         .frame(width: panel.width)

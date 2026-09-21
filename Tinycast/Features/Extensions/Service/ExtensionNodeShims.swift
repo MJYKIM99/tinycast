@@ -42,7 +42,9 @@ final class ExtensionNodeShims: @unchecked Sendable {
         let code: String
 
         static func noEntry(_ path: String, _ syscall: String) -> ShimError {
-            ShimError(message: "ENOENT: no such file or directory, \(syscall) '\(path)'", code: "ENOENT")
+            ShimError(
+                message: String(localized: "ENOENT: no such file or directory, \(syscall) '\(path)'"),
+                code: "ENOENT")
         }
         static func failed(_ message: String, _ code: String = "EIO") -> ShimError {
             ShimError(message: message, code: code)

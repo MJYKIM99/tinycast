@@ -14,11 +14,11 @@ enum InstalledAIKind: String, CaseIterable, Codable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .codex: return "Codex"
-        case .claude: return "Claude"
-        case .grok: return "Grok"
-        case .openCode: return "OpenCode"
-        case .cursor: return "Cursor"
+        case .codex: return String(localized: "Codex")
+        case .claude: return String(localized: "Claude")
+        case .grok: return String(localized: "Grok")
+        case .openCode: return String(localized: "OpenCode")
+        case .cursor: return String(localized: "Cursor")
         }
     }
 
@@ -113,9 +113,9 @@ struct InstalledAIModel: Equatable, Identifiable, Sendable {
     }
 
     static let claude: [InstalledAIModel] = [
-        InstalledAIModel(id: "sonnet", name: "Claude Sonnet", efforts: claudeEfforts),
-        InstalledAIModel(id: "opus", name: "Claude Opus", efforts: claudeEfforts),
-        InstalledAIModel(id: "haiku", name: "Claude Haiku")
+        InstalledAIModel(id: "sonnet", name: String(localized: "Claude Sonnet"), efforts: claudeEfforts),
+        InstalledAIModel(id: "opus", name: String(localized: "Claude Opus"), efforts: claudeEfforts),
+        InstalledAIModel(id: "haiku", name: String(localized: "Claude Haiku"))
     ]
 
     private static let claudeEfforts = ["low", "medium", "high", "xhigh", "max"].map {

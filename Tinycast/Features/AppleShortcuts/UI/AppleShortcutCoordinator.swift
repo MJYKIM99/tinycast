@@ -108,7 +108,7 @@ final class AppleShortcutCoordinator {
                 try await AppleShortcutRunner.run(id: id)
             } catch {
                 await core.showNotice(
-                    title: "Couldn’t Run \(name)", message: error.localizedDescription,
+                    title: String(localized: "Couldn’t Run \(name)"), message: error.localizedDescription,
                     symbol: AppleShortcut.sfSymbol, tone: .danger)
             }
         }

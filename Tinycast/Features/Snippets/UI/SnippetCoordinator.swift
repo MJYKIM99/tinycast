@@ -61,10 +61,13 @@ final class SnippetCoordinator {
         Task {
             guard
                 await core.confirm(
-                    title: "Enable snippets?",
+                    title: String(localized: "Enable snippets?"),
                     message:
-                        "Keyword expansion requires the Accessibility permission. Keystrokes stay on this Mac.",
-                    symbol: "curlybraces", confirmTitle: "Continue", tone: .neutral,
+                        String(
+                            localized:
+                                "Keyword expansion requires the Accessibility permission. Keystrokes stay on this Mac."
+                        ),
+                    symbol: "curlybraces", confirmTitle: String(localized: "Continue"), tone: .neutral,
                     confirmRole: .standard)
             else { return }
 

@@ -9,8 +9,8 @@ enum AIOpensTo: Int, CaseIterable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .recent: return "Recent Conversation"
-        case .newConversation: return "A New Conversation"
+        case .recent: return String(localized: "Recent Conversation")
+        case .newConversation: return String(localized: "A New Conversation")
         }
     }
 }

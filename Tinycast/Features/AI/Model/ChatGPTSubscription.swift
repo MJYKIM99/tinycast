@@ -42,8 +42,8 @@ enum ChatGPTSubscription {
 
         var title: String {
             switch id {
-            case "xhigh": return "Extra high"
-            case "minimal": return "Minimal"
+            case "xhigh": return String(localized: "Extra high")
+            case "minimal": return String(localized: "Minimal")
             default: return id.prefix(1).uppercased() + id.dropFirst()
             }
         }

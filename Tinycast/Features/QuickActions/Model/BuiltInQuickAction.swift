@@ -10,10 +10,10 @@ enum BuiltInQuickAction: String, CaseIterable, Codable, Identifiable, Sendable {
 
     var title: String {
         switch self {
-        case .fixGrammar: return "Fix Grammar"
-        case .rewrite: return "Rewrite"
-        case .translate: return "Translate"
-        case .summarize: return "Summarize"
+        case .fixGrammar: return String(localized: "Fix Grammar")
+        case .rewrite: return String(localized: "Rewrite")
+        case .translate: return String(localized: "Translate")
+        case .summarize: return String(localized: "Summarize")
         }
     }
 

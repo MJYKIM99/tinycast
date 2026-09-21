@@ -32,7 +32,7 @@ struct ExtensionStorePanel: View {
         VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
             header
             // The same borderless field the panes use, rather than a bordered capsule of its own.
-            SettingsFilterField(prompt: "Search extensions…", query: $query)
+            SettingsFilterField(prompt: String(localized: "Search extensions…"), query: $query)
             content
             // The list scrolls right up to the footer without it, cutting the last row.
             Divider()

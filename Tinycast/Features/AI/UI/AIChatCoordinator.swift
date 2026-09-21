@@ -166,9 +166,9 @@ final class AIChatCoordinator {
     func deleteAllChats() async {
         guard
             await core.confirm(
-                title: "Delete all chats?",
-                message: "Every saved conversation will be removed. This can't be undone.",
-                symbol: PaletteMode.aiHistory.systemImage, confirmTitle: "Delete All")
+                title: String(localized: "Delete all chats?"),
+                message: String(localized: "Every saved conversation will be removed. This can't be undone."),
+                symbol: PaletteMode.aiHistory.systemImage, confirmTitle: String(localized: "Delete All"))
         else { return }
         chat.deleteAll()
     }
@@ -251,7 +251,7 @@ final class AIChatCoordinator {
                     .staged(
                         Staged(
                             payload: .image(AIImage(data: png, mimeType: "image/png")),
-                            name: "Image", preview: Self.preview(png)))
+                            name: String(localized: "Image"), preview: Self.preview(png)))
                 ]
             }.value
             guard let self else { return }

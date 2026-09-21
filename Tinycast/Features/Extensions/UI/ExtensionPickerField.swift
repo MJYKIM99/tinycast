@@ -156,7 +156,7 @@ struct ExtensionPickerField: View {
                         .font(metrics.typography.rowTitle)
                         .foregroundStyle(Theme.Colors.textTertiary)
                 }
-                ExtensionQueryText(query: query, prompt: "Search…", phase: typedAt)
+                ExtensionQueryText(query: query, prompt: String(localized: "Search…"), phase: typedAt)
             } else {
                 Text(label)
                     .font(metrics.typography.rowTitle)
