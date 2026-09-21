@@ -57,6 +57,7 @@ struct DoubleTapDetectorTests {
         modifierGlyphs()
         commandActions()
         layoutCharacters()
+        shortcutCapture()
         hyperChord()
         hyperRetargeting()
         firing()
@@ -100,6 +101,35 @@ struct DoubleTapDetectorTests {
                 ASCIIKeyboardLayout.character(for: $0, modifiers: UInt32(cmdKey >> 8)) != nil
             },
             "a layout's Command table resolves the same keys, so ⌘ chords never lose their letter")
+    }
+
+    /// Which key-downs become a bindable chord. See docs/features/hotkeys.md#what-can-be-bound.
+    static func shortcutCapture() {
+        func captures(_ keyCode: Int, _ flags: NSEvent.ModifierFlags) -> KeyShortcut? {
+            KeyShortcut(keyCode: keyCode, modifierFlags: flags)
+        }
+
+        expect(
+            captures(kVK_Space, [.shift])?.carbonModifiers == shiftKey,
+            "⇧Space binds: a non-typing key is safe to take with shift alone")
+        expect(
+            captures(kVK_ANSI_G, [.shift]) == nil,
+            "⇧G stays unbindable, so no chord shadows typing a capital letter")
+        expect(
+            captures(kVK_Space, []) == nil,
+            "a bare Space stays unbindable, or every space bar press would fire it")
+        expect(captures(kVK_Space, [.command]) != nil, "⌘Space binds")
+        expect(captures(kVK_F5, []) != nil, "a bare function key still needs no modifier")
+        expect(captures(kVK_F5, [.shift])?.carbonModifiers == shiftKey, "⇧F5 binds")
+        expect(
+            captures(kVK_LeftArrow, [.shift])?.carbonModifiers == shiftKey,
+            "⇧← binds, since an arrow types nothing")
+        expect(captures(kVK_LeftArrow, []) == nil, "a bare arrow stays unbindable")
+
+        expect(
+            KeyShortcut.isNonTypingKey(kVK_Tab) && KeyShortcut.isNonTypingKey(kVK_Return)
+                && !KeyShortcut.isNonTypingKey(kVK_ANSI_A),
+            "the non-typing set covers Tab and Return but never a letter")
     }
 
     // MARK: - Built-in command mappings

@@ -119,8 +119,20 @@ details are load-bearing:
   binding records regardless; the recorder shows an inline warning that opens System Settings, and the
   one-second health timer installs the tap the moment the grant lands.
 
-⇧ is bindable this way even though `KeyShortcut` rejects a bare ⇧ combo: a double-_tap_ is unambiguous
-where a bare ⇧ combo would shadow typing.
+⇧ is bindable this way as well as on a non-typing key: a double-_tap_ is unambiguous, and a ⇧ chord
+on Space, Return, Tab, an arrow or a function key shadows no typing. See
+[what can be bound](#what-can-be-bound).
+
+## What can be bound
+
+`KeyShortcut`'s capturing initializer is the only gate, and it exists so no binding can shadow
+ordinary typing across the whole Mac:
+
+- **⌘, ⌥ or ⌃ — any key.** A chord carrying one of them is deliberate enough to take a letter.
+- **No modifier — function keys only.** F5 alone is bindable; a bare Space, letter or arrow is not.
+- **⇧ alone — non-typing keys only.** ⇧Space, ⇧Return, ⇧Tab, ⇧← and ⇧F5 are bindable, because none of
+  them types a character a chord could steal. ⇧A is not: registering it would intercept every capital
+  A in every app.
 
 ## The Hyper Key
 

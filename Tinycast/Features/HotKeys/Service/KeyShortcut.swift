@@ -12,11 +12,13 @@ struct KeyShortcut: Hashable, Sendable {
         self.carbonModifiers = carbonModifiers & Self.allModifiers
     }
 
-    /// Captures from a key-down, or nil: one of ⌘⌥⌃ is required, bar function keys.
+    /// Captures from a key-down, or nil when the chord would shadow ordinary typing.
     init?(keyCode: Int, modifierFlags: NSEvent.ModifierFlags) {
         let flags = modifierFlags.intersection([.command, .option, .control, .shift])
         let hasCommandingModifier = !flags.isDisjoint(with: [.command, .option, .control])
-        guard hasCommandingModifier || Self.isFunctionKey(keyCode) else { return nil }
+        let isBareFunctionKey = flags.isEmpty && Self.isFunctionKey(keyCode)
+        let isShiftedNonTypingKey = flags == [.shift] && Self.isNonTypingKey(keyCode)
+        guard hasCommandingModifier || isBareFunctionKey || isShiftedNonTypingKey else { return nil }
         self.init(carbonKeyCode: keyCode, carbonModifiers: Self.carbonModifiers(from: flags))
     }
 
@@ -88,6 +90,11 @@ struct KeyShortcut: Hashable, Sendable {
 
     static func isFunctionKey(_ keyCode: Int) -> Bool {
         functionKeyNames[keyCode] != nil
+    }
+
+    /// A key that types no character of its own, so a ⇧ chord on it cannot intercept typing.
+    static func isNonTypingKey(_ keyCode: Int) -> Bool {
+        isFunctionKey(keyCode) || specialKeyGlyphs[keyCode] != nil
     }
 
     private static let allModifiers = cmdKey | optionKey | controlKey | shiftKey
