@@ -89,11 +89,12 @@ struct RootPaletteView: View {
                 scrollToFollow: { scroll = ScrollIntent(kind: .follow) })
         case .ai:
             return AIScreen(
-                vm: vm, metrics: metrics, chat: core.aiChat, settings: core.aiSettings,
-                coordinator: core.aiChatCoordinator)
+                vm: vm, metrics: metrics, chat: quickAI,
+                coordinator: core.quickAICoordinator, chatCoordinator: core.aiChatCoordinator,
+                openAttachments: toggleAIAttachments)
         case .aiHistory:
             return ChatHistoryScreen(
-                history: core.chatHistory, chat: core.aiChat, coordinator: core.aiChatCoordinator,
+                history: core.chatHistory, chat: quickAI, coordinator: core.quickAICoordinator,
                 vm: vm, openActions: openActions, metrics: metrics)
         case .dictionary:
             return DictionaryScreen(session: dictionary, core: core, vm: vm)
@@ -238,12 +239,18 @@ struct RootPaletteView: View {
             return headerMenu(emojiCategoryContent, width: metrics.size.emojiCategoryMenuWidth)
         case .aiModel:
             return headerMenu(
-                AIModelMenu.models(coordinator: core.aiChatCoordinator),
+                AIModelMenu.models(coordinator: core.aiChatCoordinator, chat: quickAI),
                 width: metrics.size.menuWidth)
         case .aiReasoning:
             return headerMenu(
                 AIModelMenu.reasoning(
-                    coordinator: core.aiChatCoordinator, settings: core.aiSettings),
+                    coordinator: core.aiChatCoordinator, chat: quickAI),
+                width: metrics.size.menuWidth)
+        case .aiAttachments:
+            guard !quickAI.pendingAttachments.isEmpty else { return nil }
+            return headerMenu(
+                AIModelMenu.attachments(
+                    coordinator: core.aiChatCoordinator, chat: quickAI),
                 width: metrics.size.menuWidth)
         case .argumentOptions:
             guard let field = argumentOptionsField,
@@ -310,7 +317,8 @@ struct RootPaletteView: View {
                 )
                 // The window's frame is the size source, so the glass and clip stay matched.
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                .background(PaletteBackground(window: hostWindow))
+                .background(Theme.Colors.panelScrim)
+                .background(GlassEffectView())
                 .overlay {
                     Theme.Colors.dialogDimming
                         .opacity(core.isDimmingPaletteForDialog ? 1 : 0)
@@ -360,9 +368,7 @@ struct RootPaletteView: View {
                 searchFocused = !screen.hidesSearchField
             }
             // A preserved screen re-summons as it was left, so a menu must end with the palette.
-            .onChange(of: vm.isVisible) {
-                if !vm.isVisible, menuOpen { closeMenus() }
-            }
+            .modifier(PaletteHideObserver { if menuOpen { closeMenus() } })
             .onChange(of: vm.query) {
                 if vm.collapseQueryLineBreaks() { return }
                 vm.selection = 0
@@ -515,6 +521,9 @@ struct RootPaletteView: View {
                     return .handled
                 }
                 let selection = selection(in: screen)
+                if command, press.modifiers.contains(.control), screen.tertiary(at: selection) {
+                    return .handled
+                }
                 if command { return screen.secondary(at: selection) ? .handled : .ignored }
                 return screen.pasteKeepingWindowOpen(at: selection) ? .handled : .ignored
             }
@@ -645,11 +654,12 @@ struct RootPaletteView: View {
             headerField
             if let accessory = headerAccessory {
                 accessory.view
-                Spacer(minLength: 0)
+                // Given room last: at the default priority it would split it with the field.
+                Spacer(minLength: 0).layoutPriority(-1)
             }
             if tabOpensChat {
                 headerGutter(width: metrics.spacing.md)
-                aiChatTabHint
+                quickAITabHint
             }
             // Keyed off the mode, which says which screen is up; the field just flexes narrower.
             if !isCollapsed, vm.mode == .clipboard {
@@ -677,14 +687,14 @@ struct RootPaletteView: View {
             if !isCollapsed, vm.mode == .ai {
                 headerGutter(width: metrics.spacing.md)
                 AIModelButton(
-                    title: core.aiChatCoordinator.selectedModelTitle,
-                    icon: core.aiChatCoordinator.selectedModelIcon,
+                    title: core.aiChatCoordinator.selectedModelTitle(for: quickAI),
+                    icon: core.aiChatCoordinator.selectedModelIcon(for: quickAI),
                     isOpen: openMenu == .aiModel,
                     action: toggleAIModel)
-                if !core.aiChatCoordinator.reasoningEfforts.isEmpty {
+                if !core.aiChatCoordinator.reasoningEfforts(for: quickAI).isEmpty {
                     headerGutter(width: metrics.spacing.md)
                     AIReasoningButton(
-                        title: core.aiChatCoordinator.selectedReasoningTitle,
+                        title: core.aiChatCoordinator.selectedReasoningTitle(for: quickAI),
                         isOpen: openMenu == .aiReasoning,
                         action: toggleAIReasoning)
                 }
@@ -720,6 +730,7 @@ struct RootPaletteView: View {
         .frame(maxWidth: .infinity)
         // Set after the show, so the field it names is focused rather than the search field.
         .onChange(of: vm.pendingArgumentEntryID) { focusPendingArgument() }
+        .onChange(of: quickAI.pendingAttachments.map(\.id)) { refreshAttachmentsMenu() }
     }
 
     /// Mode-gated ahead of the cast, which would otherwise cost every other mode a list build.
@@ -736,16 +747,16 @@ struct RootPaletteView: View {
     }
 
     /// Nothing else advertises Tab, so the launcher says where it goes.
-    private var aiChatTabHint: some View {
+    private var quickAITabHint: some View {
         BarButton(chrome: .rounded, action: cycleMode) {
             HStack(spacing: metrics.spacing.sm) {
-                Text("AI Chat")
+                Text("Quick AI")
                     .font(metrics.typography.bar)
                     .foregroundStyle(Theme.Colors.textSecondary)
                 KeyCapChip(text: "⇥", style: .outline)
             }
         }
-        .help("Ask AI Chat what you typed  ⇥")
+        .help("Ask Quick AI what you typed  ⇥")
     }
 
     /// Resolved through `PaletteTabAction`, so the hint cannot promise the wrong destination.
@@ -762,7 +773,8 @@ struct RootPaletteView: View {
     /// The field, kept mounted and hidden rather than swapped: a branch would tear its editor down.
     private var headerField: some View {
         searchField
-            .frame(width: searchFieldWidth)
+            // A ceiling, not a size, so the row squeezes a long query before the strip overruns.
+            .frame(minWidth: searchFieldFloor, maxWidth: searchFieldWidth)
             .opacity(hidesSearchField ? 0 : 1)
             .allowsHitTesting(!hidesSearchField)
             .accessibilityHidden(hidesSearchField)
@@ -778,6 +790,10 @@ struct RootPaletteView: View {
         return headerAccessory.map(searchFieldWidth)
     }
 
+    private var searchFieldFloor: CGFloat? {
+        searchFieldWidth.map { min($0, metrics.size.searchFieldMinWidth) }
+    }
+
     /// The field's own text, floored for the caret and capped so the strip stays on screen.
     /// Empty, that is the prompt where one is drawn — which is what seats the strip right after it.
     private func searchFieldWidth(for accessory: PaletteHeaderAccessory) -> CGFloat {
@@ -785,10 +801,11 @@ struct RootPaletteView: View {
         let text = vm.query.isEmpty ? searchPrompt : vm.query
         let typed = (text as NSString).size(withAttributes: [.font: font]).width
         let chrome = metrics.size.headerIconSlot + metrics.spacing.md * 4
+        let room = metrics.size.panelWidth - accessory.width - chrome
         // +3pt so the caret sits after the last glyph rather than on top of it.
         return min(
             max(typed + metrics.scaled(3), metrics.scaled(18)),
-            max(metrics.size.panelWidth - accessory.width - chrome, metrics.scaled(60)))
+            max(room, metrics.size.searchFieldMinWidth))
     }
 
     private var searchPrompt: String {
@@ -995,8 +1012,18 @@ struct RootPaletteView: View {
         }
     }
 
+    private var quickAI: AIChatState { core.aiChats.quickAI }
+
     private var aiModelHighlight: Int {
-        AIModelMenu.modelHighlight(coordinator: core.aiChatCoordinator, settings: core.aiSettings)
+        AIModelMenu.modelHighlight(coordinator: core.aiChatCoordinator, chat: quickAI)
+    }
+
+    private func toggleAIAttachments() {
+        if openMenu == .aiAttachments {
+            closeMenus()
+            return
+        }
+        open(.aiAttachments, highlighting: 0)
     }
 
     private func toggleAIReasoning() {
@@ -1007,7 +1034,7 @@ struct RootPaletteView: View {
         open(
             .aiReasoning,
             highlighting: AIModelMenu.reasoningHighlight(
-                coordinator: core.aiChatCoordinator, settings: core.aiSettings))
+                coordinator: core.aiChatCoordinator, chat: quickAI))
     }
 
     /// Every header menu states its own width, so resizing one never moves another.
@@ -1087,6 +1114,7 @@ struct RootPaletteView: View {
         case .some(.carriageReturn), .some(.enter):
             let screen = screen
             let selection = selection(in: screen)
+            if modifiers.contains([.command, .control]), screen.tertiary(at: selection) { return true }
             if modifiers.contains(.command) { return screen.secondary(at: selection) }
             if modifiers.contains(.option) {
                 return screen.pasteKeepingWindowOpen(at: selection)
@@ -1154,13 +1182,24 @@ struct RootPaletteView: View {
         syncMenuPanel(presenting: false)
     }
 
+    /// A row is addressed by index, so a file staged or dropped under the open menu re-lays it.
+    private func refreshAttachmentsMenu() {
+        guard openMenu == .aiAttachments else { return }
+        guard let content = menuContent else {
+            closeMenus()
+            return
+        }
+        menuSelection = min(menuSelection, max(content.rowCount - 1, 0))
+        syncMenuPanel(presenting: false)
+    }
+
     private var menuCorner: MenuPanelCorner? {
         switch openMenu {
         case .app: .bottomLeading
         case .actions: .bottomTrailing
         case .argumentOptions: .belowHeaderTrailing
         case .clipboardFilter, .fileSearchFilter, .emojiCategory, .aiModel, .aiReasoning,
-            .extensionAccessory:
+            .aiAttachments, .extensionAccessory:
             .belowHeaderTrailing
         case nil: nil
         }
@@ -1259,7 +1298,7 @@ struct RootPaletteView: View {
             vm.resetNavigation()
         case .carryQuery(let mode): vm.pushCarryingQuery(mode: mode)
         case .freshScreen(let mode): vm.push(mode: mode)
-        case .ask: core.aiChatCoordinator.ask(vm.query)
+        case .ask: core.quickAICoordinator.ask(vm.query)
         }
     }
 
@@ -1370,6 +1409,19 @@ private enum OpenMenu {
     case emojiCategory
     case aiModel
     case aiReasoning
+    case aiAttachments
+}
+
+/// Reads visibility in its own body, so a summon never re-renders the palette's.
+private struct PaletteHideObserver: ViewModifier {
+    @Environment(PaletteState.self) private var vm
+    let onHide: () -> Void
+
+    func body(content: Content) -> some View {
+        content.onChange(of: vm.isVisible) { _, visible in
+            if !visible { onHide() }
+        }
+    }
 }
 
 /// Its own modifier: the palette's body is already at the type-checker's limit.

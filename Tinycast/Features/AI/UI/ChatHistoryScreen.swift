@@ -1,10 +1,10 @@
 import SwiftUI
 
-/// Local conversations: search summaries, preview one, then explicitly open it as the active chat.
+/// Local conversations: search summaries, preview one, then explicitly open it in Quick AI.
 struct ChatHistoryScreen: PaletteScreen {
     let history: ChatHistoryStore
     let chat: AIChatState
-    let coordinator: AIChatCoordinator
+    let coordinator: QuickAICoordinator
     let vm: PaletteState
     let openActions: () -> Void
     let metrics: InterfaceMetrics
@@ -37,6 +37,10 @@ struct ChatHistoryScreen: PaletteScreen {
             return true
         case .deleteAll:
             deleteAll()
+            return true
+        case .continueInChat:
+            guard let conversation = conversation(at: selection) else { return false }
+            coordinator.continueInChat(id: conversation.id)
             return true
         default: return false
         }
@@ -88,26 +92,30 @@ struct ChatHistoryScreen: PaletteScreen {
 @MainActor
 enum ChatHistoryActionsMenu {
     static func content(
-        conversation: ChatConversation, coordinator: AIChatCoordinator
+        conversation: ChatConversation, coordinator: QuickAICoordinator
     ) -> PopoverMenuContent {
         PopoverMenuContent(
-            header: conversation.title,
+            header: conversation.displayTitle,
             items: [
                 PopoverMenuItem(
-                    title: String(localized: "Open Chat"), systemImage: "bubble.left.and.bubble.right",
-                    shortcut: "↵"
+                    title: "Open Chat", systemImage: "sparkles", shortcut: "↵"
                 ) {
                     coordinator.openChat(id: conversation.id)
                 },
                 PopoverMenuItem(
-                    title: String(localized: "Delete Chat"), systemImage: "trash", startsSection: true,
-                    shortcut: "⌃X",
+                    title: "Continue in AI Chat", systemImage: "bubble.left.and.bubble.right",
+                    shortcut: "⌘J"
+                ) {
+                    coordinator.continueInChat(id: conversation.id)
+                },
+                PopoverMenuItem(
+                    title: "Delete Chat", systemImage: "trash", startsSection: true, shortcut: "⌃X",
                     isDestructive: true
                 ) {
                     coordinator.deleteChat(id: conversation.id)
                 },
                 PopoverMenuItem(
-                    title: String(localized: "Delete All Chats"), systemImage: "trash", shortcut: "⌃⇧X",
+                    title: "Delete All Chats", systemImage: "trash", shortcut: "⌃⇧X",
                     isDestructive: true
                 ) {
                     Task { await coordinator.deleteAllChats() }

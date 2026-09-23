@@ -22,11 +22,11 @@ struct AISettingsView: View {
         return Form {
             Section {
                 Toggle(isOn: $appSettings.aiEnabled) {
-                    SettingsRowTitle(.aiAI, String(localized: "Enable AI"))
+                    SettingsRowTitle(.aiAI, "Enable AI")
                     Text("Nothing is loaded or sent while it is off.")
                 }
                 SettingsRow(
-                    title: String(localized: "Providers"), subtitle: providerSummary, anchor: .aiProviders
+                    title: "Providers", subtitle: providerSummary, anchor: .aiProviders
                 ) {
                     Button("Manage…") { providersPresented = true }
                 }
@@ -76,10 +76,10 @@ struct AISettingsView: View {
                 selection: settings.defaultModel,
                 select: { $0.map(settings.select) },
                 modelLabel: {
-                    SettingsRowTitle(.aiDefault, String(localized: "Default model"))
+                    SettingsRowTitle(.aiDefault, "Default model")
                 },
                 effortLabel: {
-                    SettingsRowTitle(.aiDefault, String(localized: "Reasoning effort"))
+                    SettingsRowTitle(.aiDefault, "Reasoning effort")
                 }
             )
         } header: {
@@ -123,8 +123,16 @@ struct AISettingsView: View {
         @Bindable var settings = settings
         return Section {
             Toggle(isOn: $settings.webSearchEnabled) {
-                SettingsRowTitle(.aiChat, String(localized: "Web search"))
+                SettingsRowTitle(.aiChat, "Web search")
                 Text("Codex and OpenRouter only. Prompts go to a search engine.")
+            }
+            Picker(selection: $settings.toolRounds) {
+                ForEach(AIToolRounds.allCases) { Text($0.title).tag($0) }
+            } label: {
+                SettingsRowTitle(.aiChat, "Tool call rounds")
+                Text(
+                    "A reply stops after this many; Unlimited runs until Stop. "
+                        + "API connections, Codex and Claude.")
             }
         } header: {
             SettingsSectionHeader(.aiChat)
@@ -137,20 +145,20 @@ struct AISettingsView: View {
             Picker(selection: $settings.opensTo) {
                 ForEach(AIOpensTo.allCases) { Text($0.title).tag($0) }
             } label: {
-                SettingsRowTitle(.aiConversations, String(localized: "Opens to"))
+                SettingsRowTitle(.aiConversations, "Quick AI opens to")
             }
             if settings.opensTo == .recent {
                 Picker(selection: $settings.newChatAfter) {
                     ForEach(AINewChatAfter.allCases) { Text($0.title).tag($0) }
                 } label: {
-                    SettingsRowTitle(.aiConversations, String(localized: "Start a new conversation after"))
+                    SettingsRowTitle(.aiConversations, "Start a new conversation after")
                 }
             }
             Picker(selection: $settings.retention) {
                 ForEach(AIRetention.allCases) { Text($0.title).tag($0) }
             } label: {
-                SettingsRowTitle(.aiConversations, String(localized: "Keep conversations"))
-                Text("Older ones are deleted.")
+                SettingsRowTitle(.aiConversations, "Keep conversations")
+                Text("Older ones are deleted, except pinned chats.")
             }
             .onChange(of: settings.retention) { core.aiChatCoordinator.applyRetention() }
         } header: {
@@ -166,7 +174,7 @@ struct AISettingsView: View {
         @Bindable var settings = settings
         return Section {
             Toggle(isOn: $settings.systemPromptEnabled) {
-                SettingsRowTitle(.aiSystemPrompt, String(localized: "Send a system prompt"))
+                SettingsRowTitle(.aiSystemPrompt, "Send a system prompt")
                 Text("Off also skips Tinycast's own prompt.")
             }
             SystemPromptEditor(text: $settings.systemPrompt)
@@ -184,8 +192,8 @@ struct AISettingsView: View {
         @Bindable var settings = settings
         return VStack(alignment: .leading, spacing: 0) {
             SettingsEditorHeader(
-                title: String(localized: "AI Providers"),
-                subtitle: String(localized: "Use an installed account or connect an API endpoint.")
+                title: "AI Providers",
+                subtitle: "Use an installed account or connect an API endpoint."
             )
             .padding(.horizontal, Theme.Spacing.dialogInset)
             .padding(.top, Theme.Spacing.dialogInset)
@@ -449,7 +457,7 @@ struct AISettingsView: View {
                     connection: AIConnection(), hasStoredKey: false, isNew: true)
             } label: {
                 Label {
-                    SettingsRowTitle(.aiAPIConnections, String(localized: "Add API Connection"))
+                    SettingsRowTitle(.aiAPIConnections, "Add API Connection")
                 } icon: {
                     Image(systemName: "plus")
                 }
@@ -566,7 +574,11 @@ struct AISettingsView: View {
         var parts: [String] = []
         if let version = status.version { parts.append("Version " + version) }
         parts.append(modelCount(status.models))
-        if let caveat = kind.isolationCaveat { parts.append(caveat) }
+        if let caveat = kind.isolationCaveat(
+            hasManagedMCPPolicy: InstalledAIManager.hasManagedMCPPolicy)
+        {
+            parts.append(caveat)
+        }
         return parts.joined(separator: " · ")
     }
 

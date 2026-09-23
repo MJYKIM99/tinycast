@@ -23,7 +23,7 @@ struct GeneralSettingsView: View {
         @Bindable var settings = settings
         return Form {
             Section {
-                SettingsRow(title: String(localized: "App Launcher"), anchor: .generalGlobalShortcuts) {
+                SettingsRow(title: "App Launcher", anchor: .generalGlobalShortcuts) {
                     ShortcutRecorder(action: .togglePalette)
                 }
             } header: {
@@ -32,10 +32,10 @@ struct GeneralSettingsView: View {
 
             Section {
                 Toggle(isOn: $settings.launchAtLogin) {
-                    SettingsRowTitle(.generalGeneral, String(localized: "Launch at login"))
+                    SettingsRowTitle(.generalGeneral, "Launch at login")
                 }
                 Toggle(isOn: $showInMenuBar) {
-                    SettingsRowTitle(.generalGeneral, String(localized: "Show in menu bar"))
+                    SettingsRowTitle(.generalGeneral, "Show in menu bar")
                     Text("Shortcuts still work when hidden.")
                 }
                 Picker(selection: $settings.popToRootTimeout) {
@@ -43,7 +43,7 @@ struct GeneralSettingsView: View {
                         Text(timeout.title).tag(timeout)
                     }
                 } label: {
-                    SettingsRowTitle(.generalGeneral, String(localized: "Pop to Root Search"))
+                    SettingsRowTitle(.generalGeneral, "Pop to Root Search")
                     Text("After the launcher closes.")
                 }
                 Picker(selection: $settings.escapeKeyBehavior) {
@@ -51,7 +51,7 @@ struct GeneralSettingsView: View {
                         Text(behavior.title).tag(behavior)
                     }
                 } label: {
-                    SettingsRowTitle(.generalGeneral, String(localized: "Escape Key Behavior"))
+                    SettingsRowTitle(.generalGeneral, "Escape Key Behavior")
                     Text("When the search field is empty.")
                 }
                 // Empty only when TIS fails; one layout still lists, so the row stays put.
@@ -62,7 +62,7 @@ struct GeneralSettingsView: View {
                             Text(source.title).tag(Optional(source.id))
                         }
                     } label: {
-                        SettingsRowTitle(.generalGeneral, String(localized: "Auto-switch input source"))
+                        SettingsRowTitle(.generalGeneral, "Auto-switch input source")
                         Text("While the launcher is open.")
                     }
                 }
@@ -76,25 +76,20 @@ struct GeneralSettingsView: View {
                         Text(appearance.title).tag(appearance)
                     }
                 } label: {
-                    SettingsRowTitle(.generalAppearance, String(localized: "Theme"))
+                    SettingsRowTitle(.generalAppearance, "Theme")
                 }
                 InterfaceSizeRow()
-                PaletteTransparencyRow()
-                Toggle(isOn: $settings.compactMode) {
-                    SettingsRowTitle(.generalAppearance, String(localized: "Compact mode"))
-                    Text("A slim search bar that expands as you type.")
-                }
+                WindowModeRow()
                 Toggle(isOn: $settings.showFavoritesInCompactMode) {
-                    SettingsRowTitle(.generalAppearance, String(localized: "Show favorites in compact mode"))
+                    SettingsRowTitle(.generalAppearance, "Show favorites in compact mode")
                     Text("Launch them with ⌘1–⌘5.")
                 }
                 .settingsEnabled(settings.compactMode)
                 Toggle(isOn: $settings.openOnCursorScreen) {
-                    SettingsRowTitle(
-                        .generalAppearance, String(localized: "Follow the cursor across displays"))
+                    SettingsRowTitle(.generalAppearance, "Follow the cursor across displays")
                 }
                 Toggle(isOn: $settings.paletteDraggable) {
-                    SettingsRowTitle(.generalAppearance, String(localized: "Drag to reposition"))
+                    SettingsRowTitle(.generalAppearance, "Drag to reposition")
                     Text("Drag the strip above the search field.")
                 }
             } header: {
@@ -107,7 +102,7 @@ struct GeneralSettingsView: View {
                         Text(key.title).tag(key)
                     }
                 } label: {
-                    SettingsRowTitle(.generalHyperKey, String(localized: "Hyper Key"))
+                    SettingsRowTitle(.generalHyperKey, "Hyper Key")
                     Text(hyperSubtitle)
                 }
                 .onChange(of: settings.hyperKey) { _, newKey in
@@ -136,13 +131,13 @@ struct GeneralSettingsView: View {
                         }
                         Text("Trigger Escape").tag(HyperKeyQuickPress.escape)
                     } label: {
-                        SettingsRowTitle(.generalHyperKey, String(localized: "Quick Press"))
+                        SettingsRowTitle(.generalHyperKey, "Quick Press")
                         Text("When \(settings.hyperKey.title) is pressed alone.")
                     }
                 }
 
                 Toggle(isOn: $settings.hyperKeyIncludesShift) {
-                    SettingsRowTitle(.generalHyperKey, String(localized: "Include Shift (⇧)"))
+                    SettingsRowTitle(.generalHyperKey, "Include Shift (⇧)")
                 }
                 // Flipping it re-points recorded chords, so it needs a chord to mean.
                 .settingsEnabled(settings.hyperKey != .none)
@@ -157,7 +152,7 @@ struct GeneralSettingsView: View {
                         Text("\(style.title) (\(sample))").tag(style)
                     }
                 } label: {
-                    SettingsRowTitle(.generalCalculator, String(localized: "Number format"))
+                    SettingsRowTitle(.generalCalculator, "Number format")
                     Text("With a decimal comma, ; separates arguments.")
                 }
             } header: {
@@ -165,13 +160,25 @@ struct GeneralSettingsView: View {
             }
 
             Section {
+                Toggle(isOn: $settings.launcherShowsSuggestions) {
+                    SettingsRowTitle(.generalSearch, "Show suggestions")
+                    Text("What you open most, while the search field is empty.")
+                }
+                Picker(selection: $settings.rootSearchSensitivity) {
+                    ForEach(SearchSensitivity.allCases) { sensitivity in
+                        Text(sensitivity.title).tag(sensitivity)
+                    }
+                } label: {
+                    SettingsRowTitle(.generalSearch, "Search sensitivity")
+                    Text("Lower finds names from scattered letters.")
+                }
                 LabeledContent {
                     Button("Reset…", role: .destructive) {
                         confirmingRankingReset = true
                     }
                     .disabled(launcherRanking.isEmpty)
                 } label: {
-                    SettingsRowTitle(.generalSearch, String(localized: "Learned ranking"))
+                    SettingsRowTitle(.generalSearch, "Learned ranking")
                     Text("Learned privately from the results you pick.")
                 }
             } header: {
@@ -206,6 +213,75 @@ struct GeneralSettingsView: View {
     }
 }
 
+private struct WindowModeRow: View {
+    @Environment(AppSettings.self) private var settings
+
+    private static let preview = CGSize(width: 135, height: 80)
+
+    var body: some View {
+        SettingsRow(
+            title: "Window mode", subtitle: "Choose how the launcher opens.",
+            subtitleLineLimit: 2, alignment: .top, anchor: .generalAppearance
+        ) {
+            HStack(spacing: Theme.Spacing.md) {
+                option("Compact", image: "WindowModeCompact", compact: true)
+                option("Expanded", image: "WindowModeExpanded", compact: false)
+            }
+        }
+    }
+
+    private func option(_ title: String, image: String, compact: Bool) -> some View {
+        let selected = settings.compactMode == compact
+        return Button {
+            settings.compactMode = compact
+        } label: {
+            VStack(spacing: Theme.Spacing.xs) {
+                Image(image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: Self.preview.width, height: Self.preview.height)
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: Theme.Radius.barControl, style: .continuous)
+                    )
+                    .saturation(selected ? 1 : 0)
+                Text(title)
+                    .font(.caption)
+                    .fontWeight(selected ? .semibold : .regular)
+                    .foregroundStyle(selected ? Color.primary : Color.secondary)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(WindowModeButtonStyle())
+        .accessibilityLabel(title)
+        .accessibilityAddTraits(selected ? [.isSelected] : [])
+    }
+}
+
+private struct WindowModeButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        PressedLabel(configuration: configuration)
+    }
+
+    private struct PressedLabel: View {
+        let configuration: ButtonStyle.Configuration
+        @State private var showsPressed = false
+
+        var body: some View {
+            configuration.label
+                .opacity(showsPressed ? 0.7 : 1)
+                .task(id: configuration.isPressed) {
+                    if configuration.isPressed {
+                        try? await Task.sleep(for: .milliseconds(20))
+                        guard !Task.isCancelled else { return }
+                        showsPressed = true
+                    } else {
+                        showsPressed = false
+                    }
+                }
+        }
+    }
+}
+
 /// Three glyph steps read as a legend; a true-to-scale "Aa" would look identical at 1.1.
 private struct InterfaceSizeRow: View {
     @Environment(AppSettings.self) private var settings
@@ -216,8 +292,8 @@ private struct InterfaceSizeRow: View {
 
     var body: some View {
         SettingsRow(
-            title: String(localized: "Interface size"),
-            subtitle: String(localized: "Scales the launcher and its panels, not Settings."),
+            title: "Interface size",
+            subtitle: "Scales the launcher and its panels, not Settings.",
             anchor: .generalAppearance
         ) {
             HStack(spacing: Theme.Spacing.xxs) {
@@ -237,7 +313,7 @@ private struct InterfaceSizeRow: View {
             Text("Aa")
                 .font(.system(size: Self.glyph[size] ?? 13, weight: .medium))
                 .foregroundStyle(selected ? Color.primary : Color.secondary)
-                .frame(width: Theme.Size.interfaceSizeSegment, height: Theme.Size.settingsSearchField)
+                .frame(width: Theme.Size.interfaceSizeSegment, height: Theme.Size.settingsControlHeight)
                 // Without this only the glyphs take the click, not the segment around them.
                 .contentShape(shape)
                 .background(shape.fill(selected ? Theme.Colors.controlSurface : Color.clear))
@@ -246,50 +322,5 @@ private struct InterfaceSizeRow: View {
         .accessibilityLabel(size.title)
         .accessibilityAddTraits(selected ? [.isSelected] : [])
         .help(size.title)
-    }
-}
-
-private struct PaletteTransparencyRow: View {
-    @Environment(AppSettings.self) private var settings
-    @State private var draft: Double?
-    @State private var isEditing = false
-
-    private var value: Binding<Double> {
-        Binding(
-            get: { draft ?? Double(settings.paletteTransparency) },
-            set: { value in
-                if isEditing {
-                    draft = value
-                } else {
-                    settings.paletteTransparency = Int(value)
-                }
-            })
-    }
-
-    var body: some View {
-        SettingsRow(title: String(localized: "Background transparency"), anchor: .generalAppearance) {
-            Slider(
-                value: value, in: -100...100, step: 50, neutralValue: 0,
-                label: { EmptyView() },
-                minimumValueLabel: { Text("Less") },
-                maximumValueLabel: { Text("More") },
-                tick: { SliderTick($0) },
-                onEditingChanged: { editing in
-                    isEditing = editing
-                    if !editing, let draft {
-                        settings.paletteTransparency = Int(draft)
-                        self.draft = nil
-                    }
-                }
-            )
-            .labelsHidden()
-            .accessibilityLabel("Background transparency")
-            .frame(width: Theme.Size.paletteTransparencySlider)
-            Button("Reset") {
-                draft = nil
-                settings.paletteTransparency = 0
-            }
-            .help("Restore the default background in Light and Dark.")
-        }
     }
 }

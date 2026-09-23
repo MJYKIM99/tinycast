@@ -197,7 +197,7 @@ struct OnboardingView: View {
                     subtitle: String(localized: "The password you set when exporting from Raycast."),
                     systemImage: "key", tint: .gray
                 ) {
-                    SecureField("Passphrase", text: $model.passphrase)
+                    RevealableSecureField(title: "Passphrase", text: $model.passphrase)
                         .textFieldStyle(.roundedBorder)
                         .frame(width: 150)
                         .onSubmit { model.run(core: core) }
