@@ -71,8 +71,8 @@ struct QuicklinksSettingsView: View {
             if results.isEmpty {
                 Text(
                     store.quicklinks.isEmpty
-                        ? "No quicklinks yet."
-                        : "No quicklink matches “\(query)”."
+                        ? String(localized: "No quicklinks yet.")
+                        : String(localized: "No quicklink matches “\(query)”.")
                 )
                 .foregroundStyle(.secondary)
             } else {

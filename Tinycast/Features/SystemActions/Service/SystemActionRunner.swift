@@ -110,11 +110,13 @@ enum SystemActionRunner {
                 "tell application \"System Events\" to tell appearance preferences to set dark mode to not dark mode"
             )
             let dark = result.flag
-            return SystemActionFeedback(dark ? "Dark Appearance" : "Light Appearance")
+            return SystemActionFeedback(
+                dark ? String(localized: "Dark Appearance") : String(localized: "Light Appearance"))
         case .toggleStageManager:
             let on = try await toggleDefault(
                 domain: "com.apple.WindowManager", key: "GloballyEnabled")
-            return SystemActionFeedback(on ? "Stage Manager On" : "Stage Manager Off")
+            return SystemActionFeedback(
+                on ? String(localized: "Stage Manager On") : String(localized: "Stage Manager Off"))
         case .openTrash:
             let trash = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".Trash")
             guard NSWorkspace.shared.open(trash) else {
@@ -135,7 +137,9 @@ enum SystemActionRunner {
             guard ejected > 0 else {
                 return SystemActionFeedback(String(localized: "No Disks to Eject"), isNoOp: true)
             }
-            return SystemActionFeedback(ejected == 1 ? "1 Disk Ejected" : "\(ejected) Disks Ejected")
+            return SystemActionFeedback(
+                ejected == 1
+                    ? String(localized: "1 Disk Ejected") : String(localized: "\(ejected) Disks Ejected"))
         case .toggleHiddenFiles:
             let shown = try await toggleDefault(
                 domain: "com.apple.finder", key: "AppleShowAllFiles")
@@ -143,7 +147,8 @@ enum SystemActionRunner {
             if output.status != 0 && output.status != 1 {
                 throw processFailure(output, executable: "killall")
             }
-            return SystemActionFeedback(shown ? "Hidden Files Shown" : "Hidden Files Hidden")
+            return SystemActionFeedback(
+                shown ? String(localized: "Hidden Files Shown") : String(localized: "Hidden Files Hidden"))
         case .hideOtherApps:
             hideOtherApps(except: previousApp)
         case .unhideAllApps:
@@ -163,7 +168,8 @@ enum SystemActionRunner {
             return SystemActionFeedback(String(localized: "Notifications Dismissed"))
         case .toggleBluetooth:
             let on = try await toggleBluetooth()
-            return SystemActionFeedback(on ? "Bluetooth On" : "Bluetooth Off")
+            return SystemActionFeedback(
+                on ? String(localized: "Bluetooth On") : String(localized: "Bluetooth Off"))
         }
         return nil
     }
@@ -642,6 +648,6 @@ enum SystemActionRunner {
         let detail = output.stderr.trimmingCharacters(in: .whitespacesAndNewlines)
         let name = URL(fileURLWithPath: executable).lastPathComponent
         return SystemActionFailure(
-            detail.isEmpty ? "\(name) exited with status \(output.status)." : detail)
+            detail.isEmpty ? String(localized: "\(name) exited with status \(output.status).") : detail)
     }
 }

@@ -249,7 +249,7 @@ struct RegistryEditorPanel: View {
 
             VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
                 Text("Name").font(.callout.weight(.medium))
-                TextField("", text: $name, prompt: Text(parsed?.name ?? "Optional"))
+                TextField("", text: $name, prompt: Text(parsed?.name ?? String(localized: "Optional")))
                     .extensionSettingsEditorTextField()
                     .pointerStyle(.horizontalText)
             }

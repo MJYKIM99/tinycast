@@ -311,9 +311,12 @@ struct MCPServerEditor: View {
         case .running:
             ProgressView().controlSize(.small)
         case .found(let count):
-            Label(count == 1 ? "1 tool" : "\(count) tools", systemImage: "checkmark.circle")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Label(
+                count == 1 ? String(localized: "1 tool") : String(localized: "\(count) tools"),
+                systemImage: "checkmark.circle"
+            )
+            .font(.caption)
+            .foregroundStyle(.secondary)
         case .failed(let message):
             Label(message, systemImage: "exclamationmark.triangle")
                 .font(.caption)

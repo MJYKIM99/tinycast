@@ -130,7 +130,7 @@ struct CustomCommandEditorPanel: View {
             } label: {
                 HStack(spacing: Theme.Spacing.sm) {
                     SymbolImage(name: iconSymbol ?? CustomCommand.sfSymbol, size: 14)
-                    Text(iconSymbol == nil ? "Automatic" : "Custom")
+                    Text(iconSymbol == nil ? String(localized: "Automatic") : String(localized: "Custom"))
                         .lineLimit(1)
                     Spacer(minLength: 0)
                 }
@@ -196,8 +196,10 @@ struct CustomCommandEditorPanel: View {
             }
             Text(
                 arguments.isEmpty
-                    ? "Add up to three, filled in beside the search field before the command runs."
-                    : "Passed to the command in order as $1, $2 …"
+                    ? String(
+                        localized:
+                            "Add up to three, filled in beside the search field before the command runs.")
+                    : String(localized: "Passed to the command in order as $1, $2 …")
             )
             .font(.caption)
             .foregroundStyle(.secondary)

@@ -186,7 +186,7 @@ private struct ArgumentChoiceField: View {
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(argument.title))
-        .accessibilityValue(Text(text.isEmpty ? "No value" : text))
+        .accessibilityValue(Text(text.isEmpty ? String(localized: "No value") : text))
         .accessibilityHint(Text("Opens a list of choices"))
         .accessibilityAddTraits(.isButton)
     }

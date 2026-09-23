@@ -14,7 +14,10 @@ struct PermissionsSettingsView: View {
                     HStack(spacing: Theme.Spacing.lg) {
                         Label(accessibilityStatus.title, systemImage: accessibilityStatus.symbol)
                             .foregroundStyle(accessibilityStatus.tint)
-                        Button(accessibilityTrusted ? "Open…" : "Grant Access…") {
+                        Button(
+                            accessibilityTrusted
+                                ? String(localized: "Open…") : String(localized: "Grant Access…")
+                        ) {
                             Permissions.openAccessibilitySettings()
                         }
                         .help("Opens Privacy & Security › Accessibility.")
@@ -32,7 +35,10 @@ struct PermissionsSettingsView: View {
                     HStack(spacing: Theme.Spacing.lg) {
                         Label(calendarStatus.title, systemImage: calendarStatus.symbol)
                             .foregroundStyle(calendarStatus.tint)
-                        Button(calendarNeedsPrompt ? "Grant Access…" : "Open…") {
+                        Button(
+                            calendarNeedsPrompt
+                                ? String(localized: "Grant Access…") : String(localized: "Open…")
+                        ) {
                             // Settings lists no app TCC was never asked about, so asking is the way in.
                             if calendarNeedsPrompt {
                                 core.calendarCoordinator.setCalendarEnabled(true)

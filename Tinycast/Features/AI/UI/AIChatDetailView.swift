@@ -300,7 +300,8 @@ private struct AIReasoningPicker: View {
             }
         } label: {
             Label(
-                efforts.isEmpty ? "Reasoning" : coordinator.selectedReasoningTitle(for: chat),
+                efforts.isEmpty
+                    ? String(localized: "Reasoning") : coordinator.selectedReasoningTitle(for: chat),
                 systemImage: "brain"
             )
             .labelStyle(.titleAndIcon)
@@ -346,7 +347,8 @@ private struct AIToolsPicker: View {
             Button("MCP Settings…", action: coordinator.showMCPSettings)
         } label: {
             Label(
-                servers.isEmpty || !scope.isEnabled ? "Tools" : "\(active) of \(servers.count)",
+                servers.isEmpty || !scope.isEnabled
+                    ? String(localized: "Tools") : String(localized: "\(active) of \(servers.count)"),
                 systemImage: "wrench.and.screwdriver"
             )
             .labelStyle(.titleAndIcon)
@@ -368,7 +370,7 @@ private struct FindCounter: View {
 
     var body: some View {
         HStack(spacing: Theme.Spacing.sm) {
-            Text(count == 0 ? "No matches" : "\(position) of \(count)")
+            Text(count == 0 ? String(localized: "No matches") : String(localized: "\(position) of \(count)"))
                 .font(.callout)
                 .monospacedDigit()
                 .foregroundStyle(.secondary)

@@ -46,11 +46,11 @@ enum Fallback: Hashable, Sendable {
     /// The footer pill's verb: what ↵ does, in the destination's own words.
     var openVerb: String {
         switch self {
-        case .builtin(.quickAI): return "Ask Quick AI"
-        case .builtin(.searchFiles): return "Search Files"
-        case .builtin(.runShellCommand): return "Run Shell Command"
-        case .builtin(.define): return "Define Word"
-        case .quicklink: return "Open Quicklink"
+        case .builtin(.quickAI): return String(localized: "Ask Quick AI")
+        case .builtin(.searchFiles): return String(localized: "Search Files")
+        case .builtin(.runShellCommand): return String(localized: "Run Shell Command")
+        case .builtin(.define): return String(localized: "Define Word")
+        case .quicklink: return String(localized: "Open Quicklink")
         }
     }
 

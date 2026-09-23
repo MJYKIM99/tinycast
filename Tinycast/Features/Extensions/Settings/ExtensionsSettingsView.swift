@@ -140,7 +140,8 @@ struct ExtensionsSettingsView: View {
             SettingsSectionHeader(anchor: .extensionsInstalled) {
                 Text(
                     core.extensions.installed.isEmpty
-                        ? "Installed" : "Installed (\(core.extensions.installed.count))")
+                        ? String(localized: "Installed")
+                        : String(localized: "Installed (\(core.extensions.installed.count))"))
             }
         }
     }
@@ -728,7 +729,7 @@ private struct ExtensionPreferenceRow: View {
                 .onChange(of: text) { _, value in save(value) }
         case .file, .directory, .appPicker:
             HStack(spacing: Theme.Spacing.sm) {
-                Text(text.isEmpty ? "Not set" : (text as NSString).lastPathComponent)
+                Text(text.isEmpty ? String(localized: "Not set") : (text as NSString).lastPathComponent)
                     .foregroundStyle(text.isEmpty ? .secondary : .primary)
                     .lineLimit(1)
                     .truncationMode(.middle)
@@ -842,7 +843,7 @@ private struct ExtensionImportPanel: View {
 
             HStack {
                 // Reads against what is selected, so it is never a button that does nothing.
-                Button(allChosen ? "Deselect All" : "Select All") {
+                Button(allChosen ? String(localized: "Deselect All") : String(localized: "Select All")) {
                     chosen = allChosen ? [] : Set(candidates.map(\.installed.manifest.name))
                 }
                 .buttonStyle(

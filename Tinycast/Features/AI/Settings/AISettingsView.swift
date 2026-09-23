@@ -303,7 +303,9 @@ struct AISettingsView: View {
                             Text("Codex · Ready")
                         }
                         Text(
-                            account.planTitle == "API key" ? "Codex API key" : "ChatGPT \(account.planTitle)")
+                            account.planTitle == String(localized: "API key")
+                                ? String(localized: "Codex API key")
+                                : String(localized: "ChatGPT \(account.planTitle)"))
                     }
                 }
             case .unavailable(let message):

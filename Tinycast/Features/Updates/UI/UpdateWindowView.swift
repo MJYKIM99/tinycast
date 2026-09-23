@@ -117,7 +117,7 @@ struct UpdateWindowView: View {
 
     private func report(_ failure: UpdateFailure) -> some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
-            Text(failure.errorDescription ?? "Something went wrong.")
+            Text(failure.errorDescription ?? String(localized: "Something went wrong."))
                 .font(.callout)
             if let recovery = failure.recoverySuggestion {
                 Text(recovery)

@@ -15,8 +15,8 @@ struct FileSearchScreen: PaletteScreen {
     }
 
     var primaryActionTitle: String {
-        guard let result = result(at: vm.selection) else { return "Open File" }
-        return result.isDirectory ? "Open Folder" : "Open File"
+        guard let result = result(at: vm.selection) else { return String(localized: "Open File") }
+        return result.isDirectory ? String(localized: "Open Folder") : String(localized: "Open File")
     }
 
     private func result(at selection: Int) -> FileSearchResult? {

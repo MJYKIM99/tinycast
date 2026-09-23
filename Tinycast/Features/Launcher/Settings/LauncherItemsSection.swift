@@ -57,9 +57,12 @@ struct LauncherItemsList: View {
 
     var body: some View {
         if entries.isEmpty {
-            Text(query.isEmpty ? "Nothing here yet." : "No matches for “\(query)”.")
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, alignment: .center)
+            Text(
+                query.isEmpty
+                    ? String(localized: "Nothing here yet.") : String(localized: "No matches for “\(query)”.")
+            )
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .center)
         } else {
             // One row holding the table: a `Form` realizes every row it is handed.
             LauncherItemsTable(

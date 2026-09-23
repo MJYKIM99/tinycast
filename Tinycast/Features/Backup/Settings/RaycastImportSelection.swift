@@ -53,7 +53,7 @@ struct RaycastImportSelection: View {
                     .toggleStyle(.checkbox)
                 }
             }
-            Button(selection == .all ? "Deselect All" : "Select All") {
+            Button(selection == .all ? String(localized: "Deselect All") : String(localized: "Select All")) {
                 selection = selection == .all ? [] : .all
             }
             .buttonStyle(.link)
