@@ -405,8 +405,8 @@ private struct ChatReasoningBlock: View {
     @State private var expanded = false
 
     private var title: String {
-        if isThinking { return "Thinking…" }
-        guard let duration = block.duration else { return "Thoughts" }
+        if isThinking { return String(localized: "Thinking…") }
+        guard let duration = block.duration else { return String(localized: "Thoughts") }
         return "Thought for \(max(1, Int(duration.rounded())))s"
     }
 

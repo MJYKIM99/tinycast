@@ -472,7 +472,7 @@ private final class InstalledCLITurnRunner {
                 guard
                     let line = ClaudeControlProtocol.response(
                         to: request, allowed: allowed,
-                        message: "The user declined this tool call.")
+                        message: String(localized: "The user declined this tool call."))
                 else { return }
                 self.write(line, closing: false)
             })

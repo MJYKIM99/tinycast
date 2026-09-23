@@ -40,7 +40,7 @@ struct UpcomingWindow: Sendable {
 
     /// A row's pill: a countdown until midnight, then the date, so tomorrow never passes for today.
     static func rowPill(for event: MeetingEvent, now: Date, calendar: Calendar) -> RowPill? {
-        if event.isInProgress(now: now) { return RowPill(text: "Now", isImminent: true) }
+        if event.isInProgress(now: now) { return RowPill(text: String(localized: "Now"), isImminent: true) }
         let delta = event.start.timeIntervalSince(now)
         guard delta > 0 else { return nil }
         let isImminent = delta <= 60 * 60

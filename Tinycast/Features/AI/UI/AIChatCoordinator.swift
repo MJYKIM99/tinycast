@@ -27,7 +27,7 @@ final class AIChatCoordinator {
         self.settingsCoordinator = settingsCoordinator
         self.core = core
         window = AppWindowController(
-            title: "AI Chat", contentSize: Theme.Size.aiChatWindow,
+            title: String(localized: "AI Chat"), contentSize: Theme.Size.aiChatWindow,
             minimumSize: Theme.Size.aiChatWindowMinimum, resizable: true,
             autosaveName: "AIChatWindow", activation: core.activationPolicy)
         chats.onReplyFinished = { [weak self] chat in self?.nameIfNeeded(chat) }
@@ -168,8 +168,9 @@ final class AIChatCoordinator {
         let title = core.chatHistory.conversation(id: id)?.displayTitle ?? "This chat"
         guard
             await core.confirm(
-                title: "Delete chat?", message: "“\(title)” will be removed. This can't be undone.",
-                symbol: "trash", confirmTitle: "Delete")
+                title: String(localized: "Delete chat?"),
+                message: String(localized: "“\(title)” will be removed. This can't be undone."),
+                symbol: "trash", confirmTitle: String(localized: "Delete"))
         else { return }
         chats.delete(id: id)
     }
@@ -177,10 +178,10 @@ final class AIChatCoordinator {
     func deleteAllChats() async {
         guard
             await core.confirm(
-                title: "Delete all chats?",
+                title: String(localized: "Delete all chats?"),
                 message: "Every saved conversation except pinned ones will be removed. "
                     + "This can't be undone.",
-                symbol: "trash", confirmTitle: "Delete All")
+                symbol: "trash", confirmTitle: String(localized: "Delete All"))
         else { return }
         chats.deleteAll()
     }

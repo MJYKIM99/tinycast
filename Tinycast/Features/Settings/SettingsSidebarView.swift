@@ -17,7 +17,9 @@ struct SettingsSidebarView: View {
                 found
             }
         }
-        .searchable(text: $query, isPresented: $searching, placement: .sidebar, prompt: "Search")
+        .searchable(
+            text: $query, isPresented: $searching, placement: .sidebar, prompt: String(localized: "Search")
+        )
         .onExitCommand { query = "" }
         .background(focusShortcut)
     }

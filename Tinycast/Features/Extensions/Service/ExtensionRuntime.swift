@@ -293,7 +293,9 @@ final class ExtensionRuntime: @unchecked Sendable {
         guard let delegate else { return }
         // Parsing a large list is the expensive part, and it belongs off the main actor.
         guard let tree = RenderTree(json: json) else {
-            report(level: "error", message: String(localized: "Could not decode the render tree for \(session)."))
+            report(
+                level: "error", message: String(localized: "Could not decode the render tree for \(session).")
+            )
             return
         }
         Task { @MainActor in delegate.runtime(self, session: session, didRender: tree) }

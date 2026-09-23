@@ -79,9 +79,9 @@ enum EmojiCategoryFilter: Hashable, Sendable {
 
     var title: String {
         switch self {
-        case .all: "All Categories"
-        case .pinned: "Pinned"
-        case .frequentlyUsed: "Frequently Used"
+        case .all: String(localized: "All Categories")
+        case .pinned: String(localized: "Pinned")
+        case .frequentlyUsed: String(localized: "Frequently Used")
         case .category(let category): category.title
         }
     }

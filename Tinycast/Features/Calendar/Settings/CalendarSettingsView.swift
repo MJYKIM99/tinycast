@@ -111,7 +111,8 @@ struct CalendarSettingsView: View {
                 .toggleStyle(.checkbox)
                 .settingsEnabled(settings.calendarMenuBarDisplay != .disabled)
                 Toggle(isOn: $settings.calendarMenuBarHidesWhenEmpty) {
-                    SettingsRowTitle(.calendarMenuBar, "Hide when there are no upcoming events")
+                    SettingsRowTitle(
+                        .calendarMenuBar, String(localized: "Hide when there are no upcoming events"))
                 }
                 .toggleStyle(.checkbox)
                 .settingsEnabled(settings.calendarMenuBarDisplay != .disabled)

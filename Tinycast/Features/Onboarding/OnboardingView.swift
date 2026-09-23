@@ -87,18 +87,18 @@ struct OnboardingView: View {
 
     private var title: String {
         switch step {
-        case 0: "Welcome to Tinycast"
-        case 1: "Enable Pasting"
-        case 2: "Import from Raycast"
-        default: "You're all set"
+        case 0: String(localized: "Welcome to Tinycast")
+        case 1: String(localized: "Enable Pasting")
+        case 2: String(localized: "Import from Raycast")
+        default: String(localized: "You're all set")
         }
     }
 
     private var subtitle: String {
         switch step {
-        case 0: "Set a shortcut to summon the launcher from anywhere."
-        case 1: "Let Tinycast paste items back into the app you were using."
-        case 2: "Bring your shortcuts, favorites, and clipboard history along."
+        case 0: String(localized: "Set a shortcut to summon the launcher from anywhere.")
+        case 1: String(localized: "Let Tinycast paste items back into the app you were using.")
+        case 2: String(localized: "Bring your shortcuts, favorites, and clipboard history along.")
         default: readyMessage
         }
     }
@@ -197,7 +197,7 @@ struct OnboardingView: View {
                     subtitle: String(localized: "The password you set when exporting from Raycast."),
                     systemImage: "key", tint: .gray
                 ) {
-                    RevealableSecureField(title: "Passphrase", text: $model.passphrase)
+                    RevealableSecureField(title: String(localized: "Passphrase"), text: $model.passphrase)
                         .textFieldStyle(.roundedBorder)
                         .frame(width: 150)
                         .onSubmit { model.run(core: core) }

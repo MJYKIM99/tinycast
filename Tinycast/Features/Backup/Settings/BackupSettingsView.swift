@@ -89,7 +89,8 @@ struct BackupSettingsView: View {
                 }
                 LabeledContent {
                     RevealableSecureField(
-                        title: "Passphrase", text: $passphrase, prompt: Text("Export password")
+                        title: String(localized: "Passphrase"), text: $passphrase,
+                        prompt: Text("Export password")
                     )
                     .labelsHidden()
                     .textFieldStyle(.roundedBorder)

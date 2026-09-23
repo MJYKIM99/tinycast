@@ -88,11 +88,13 @@ final class AIChatWindowChrome: NSObject, WindowChrome, NSToolbarDelegate, NSSea
         switch identifier {
         case Self.sidebar:
             return button(
-                identifier, symbol: "sidebar.left", label: "Sidebar", toolTip: "Show or Hide Sidebar",
+                identifier, symbol: "sidebar.left", label: String(localized: "Sidebar"),
+                toolTip: "Show or Hide Sidebar",
                 action: #selector(toggleSidebar))
         case Self.newChat:
             return button(
-                identifier, symbol: "square.and.pencil", label: "New Chat", toolTip: "New Chat  ⌘N",
+                identifier, symbol: "square.and.pencil", label: String(localized: "New Chat"),
+                toolTip: "New Chat  ⌘N",
                 action: #selector(newChatAction))
         case Self.search:
             return searchItem

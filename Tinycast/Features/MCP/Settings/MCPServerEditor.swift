@@ -132,7 +132,8 @@ struct MCPServerEditor: View {
                             }
                             field("Value") {
                                 RevealableSecureField(
-                                    title: "Value", text: $headerValue, prompt: Text("Bearer …")
+                                    title: String(localized: "Value"), text: $headerValue,
+                                    prompt: Text("Bearer …")
                                 )
                                 .settingsEditorTextField()
                             }
@@ -232,8 +233,10 @@ struct MCPServerEditor: View {
                     .settingsEditorTextField()
             }
             field("Client secret") {
-                RevealableSecureField(title: "Client secret", text: $clientSecret, prompt: Text("Optional"))
-                    .settingsEditorTextField()
+                RevealableSecureField(
+                    title: String(localized: "Client secret"), text: $clientSecret, prompt: Text("Optional")
+                )
+                .settingsEditorTextField()
             }
             field("Sign-in") {
                 HStack(spacing: Theme.Spacing.lg) {

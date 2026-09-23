@@ -23,7 +23,7 @@ struct GeneralSettingsView: View {
         @Bindable var settings = settings
         return Form {
             Section {
-                SettingsRow(title: "App Launcher", anchor: .generalGlobalShortcuts) {
+                SettingsRow(title: String(localized: "App Launcher"), anchor: .generalGlobalShortcuts) {
                     ShortcutRecorder(action: .togglePalette)
                 }
             } header: {
@@ -32,10 +32,10 @@ struct GeneralSettingsView: View {
 
             Section {
                 Toggle(isOn: $settings.launchAtLogin) {
-                    SettingsRowTitle(.generalGeneral, "Launch at login")
+                    SettingsRowTitle(.generalGeneral, String(localized: "Launch at login"))
                 }
                 Toggle(isOn: $showInMenuBar) {
-                    SettingsRowTitle(.generalGeneral, "Show in menu bar")
+                    SettingsRowTitle(.generalGeneral, String(localized: "Show in menu bar"))
                     Text("Shortcuts still work when hidden.")
                 }
                 Picker(selection: $settings.popToRootTimeout) {
@@ -43,7 +43,7 @@ struct GeneralSettingsView: View {
                         Text(timeout.title).tag(timeout)
                     }
                 } label: {
-                    SettingsRowTitle(.generalGeneral, "Pop to Root Search")
+                    SettingsRowTitle(.generalGeneral, String(localized: "Pop to Root Search"))
                     Text("After the launcher closes.")
                 }
                 Picker(selection: $settings.escapeKeyBehavior) {
@@ -51,7 +51,7 @@ struct GeneralSettingsView: View {
                         Text(behavior.title).tag(behavior)
                     }
                 } label: {
-                    SettingsRowTitle(.generalGeneral, "Escape Key Behavior")
+                    SettingsRowTitle(.generalGeneral, String(localized: "Escape Key Behavior"))
                     Text("When the search field is empty.")
                 }
                 // Empty only when TIS fails; one layout still lists, so the row stays put.
@@ -62,7 +62,7 @@ struct GeneralSettingsView: View {
                             Text(source.title).tag(Optional(source.id))
                         }
                     } label: {
-                        SettingsRowTitle(.generalGeneral, "Auto-switch input source")
+                        SettingsRowTitle(.generalGeneral, String(localized: "Auto-switch input source"))
                         Text("While the launcher is open.")
                     }
                 }
@@ -76,20 +76,21 @@ struct GeneralSettingsView: View {
                         Text(appearance.title).tag(appearance)
                     }
                 } label: {
-                    SettingsRowTitle(.generalAppearance, "Theme")
+                    SettingsRowTitle(.generalAppearance, String(localized: "Theme"))
                 }
                 InterfaceSizeRow()
                 WindowModeRow()
                 Toggle(isOn: $settings.showFavoritesInCompactMode) {
-                    SettingsRowTitle(.generalAppearance, "Show favorites in compact mode")
+                    SettingsRowTitle(.generalAppearance, String(localized: "Show favorites in compact mode"))
                     Text("Launch them with ⌘1–⌘5.")
                 }
                 .settingsEnabled(settings.compactMode)
                 Toggle(isOn: $settings.openOnCursorScreen) {
-                    SettingsRowTitle(.generalAppearance, "Follow the cursor across displays")
+                    SettingsRowTitle(
+                        .generalAppearance, String(localized: "Follow the cursor across displays"))
                 }
                 Toggle(isOn: $settings.paletteDraggable) {
-                    SettingsRowTitle(.generalAppearance, "Drag to reposition")
+                    SettingsRowTitle(.generalAppearance, String(localized: "Drag to reposition"))
                     Text("Drag the strip above the search field.")
                 }
             } header: {
@@ -102,7 +103,7 @@ struct GeneralSettingsView: View {
                         Text(key.title).tag(key)
                     }
                 } label: {
-                    SettingsRowTitle(.generalHyperKey, "Hyper Key")
+                    SettingsRowTitle(.generalHyperKey, String(localized: "Hyper Key"))
                     Text(hyperSubtitle)
                 }
                 .onChange(of: settings.hyperKey) { _, newKey in
@@ -131,13 +132,13 @@ struct GeneralSettingsView: View {
                         }
                         Text("Trigger Escape").tag(HyperKeyQuickPress.escape)
                     } label: {
-                        SettingsRowTitle(.generalHyperKey, "Quick Press")
+                        SettingsRowTitle(.generalHyperKey, String(localized: "Quick Press"))
                         Text("When \(settings.hyperKey.title) is pressed alone.")
                     }
                 }
 
                 Toggle(isOn: $settings.hyperKeyIncludesShift) {
-                    SettingsRowTitle(.generalHyperKey, "Include Shift (⇧)")
+                    SettingsRowTitle(.generalHyperKey, String(localized: "Include Shift (⇧)"))
                 }
                 // Flipping it re-points recorded chords, so it needs a chord to mean.
                 .settingsEnabled(settings.hyperKey != .none)
@@ -152,7 +153,7 @@ struct GeneralSettingsView: View {
                         Text("\(style.title) (\(sample))").tag(style)
                     }
                 } label: {
-                    SettingsRowTitle(.generalCalculator, "Number format")
+                    SettingsRowTitle(.generalCalculator, String(localized: "Number format"))
                     Text("With a decimal comma, ; separates arguments.")
                 }
             } header: {
@@ -161,7 +162,7 @@ struct GeneralSettingsView: View {
 
             Section {
                 Toggle(isOn: $settings.launcherShowsSuggestions) {
-                    SettingsRowTitle(.generalSearch, "Show suggestions")
+                    SettingsRowTitle(.generalSearch, String(localized: "Show suggestions"))
                     Text("What you open most, while the search field is empty.")
                 }
                 Picker(selection: $settings.rootSearchSensitivity) {
@@ -169,7 +170,7 @@ struct GeneralSettingsView: View {
                         Text(sensitivity.title).tag(sensitivity)
                     }
                 } label: {
-                    SettingsRowTitle(.generalSearch, "Search sensitivity")
+                    SettingsRowTitle(.generalSearch, String(localized: "Search sensitivity"))
                     Text("Lower finds names from scattered letters.")
                 }
                 LabeledContent {
@@ -178,7 +179,7 @@ struct GeneralSettingsView: View {
                     }
                     .disabled(launcherRanking.isEmpty)
                 } label: {
-                    SettingsRowTitle(.generalSearch, "Learned ranking")
+                    SettingsRowTitle(.generalSearch, String(localized: "Learned ranking"))
                     Text("Learned privately from the results you pick.")
                 }
             } header: {
@@ -220,7 +221,8 @@ private struct WindowModeRow: View {
 
     var body: some View {
         SettingsRow(
-            title: "Window mode", subtitle: "Choose how the launcher opens.",
+            title: String(localized: "Window mode"),
+            subtitle: String(localized: "Choose how the launcher opens."),
             subtitleLineLimit: 2, alignment: .top, anchor: .generalAppearance
         ) {
             HStack(spacing: Theme.Spacing.md) {
@@ -292,8 +294,8 @@ private struct InterfaceSizeRow: View {
 
     var body: some View {
         SettingsRow(
-            title: "Interface size",
-            subtitle: "Scales the launcher and its panels, not Settings.",
+            title: String(localized: "Interface size"),
+            subtitle: String(localized: "Scales the launcher and its panels, not Settings."),
             anchor: .generalAppearance
         ) {
             HStack(spacing: Theme.Spacing.xxs) {

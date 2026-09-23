@@ -109,7 +109,7 @@ struct ExtensionsSettingsView: View {
                     .foregroundStyle(.secondary)
             } else {
                 if core.extensions.installed.count > 3 {
-                    SettingsFilterField(prompt: "Filter extensions…", query: $filter)
+                    SettingsFilterField(prompt: String(localized: "Filter extensions…"), query: $filter)
                 }
                 if matching.isEmpty {
                     Text("No extension matches \u{201C}\(filter)\u{201D}.")
@@ -161,7 +161,10 @@ struct ExtensionsSettingsView: View {
     /// Three rows rather than a menu: search, copy and folder behave differently.
     private var install: some View {
         Section {
-            SettingsRow(title: "Search extensions", subtitle: searchSubtitle, anchor: .extensionsInstall) {
+            SettingsRow(
+                title: String(localized: "Search extensions"), subtitle: searchSubtitle,
+                anchor: .extensionsInstall
+            ) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
             } trailing: {
@@ -171,7 +174,7 @@ struct ExtensionsSettingsView: View {
             }
             // A state of this row, not a card: the same job as the button beside it.
             SettingsRow(
-                title: "Import from Raycast", subtitle: importSubtitle,
+                title: String(localized: "Import from Raycast"), subtitle: importSubtitle,
                 anchor: .extensionsInstall
             ) {
                 Image(systemName: "arrow.down.doc")
@@ -188,8 +191,8 @@ struct ExtensionsSettingsView: View {
                 }
             }
             SettingsRow(
-                title: "Add from folder",
-                subtitle: "A folder with package.json and built commands.",
+                title: String(localized: "Add from folder"),
+                subtitle: String(localized: "A folder with package.json and built commands."),
                 anchor: .extensionsInstall
             ) {
                 Image(systemName: "folder")
@@ -213,7 +216,7 @@ struct ExtensionsSettingsView: View {
     private var storage: some View {
         Section {
             SettingsRow(
-                title: "Leftover files", subtitle: reclaimableSubtitle,
+                title: String(localized: "Leftover files"), subtitle: reclaimableSubtitle,
                 anchor: .extensionsStorage
             ) {
                 Image(systemName: "internaldrive")
@@ -526,7 +529,7 @@ private struct CommandRows: View {
             }
         }
         if command.mode == .menuBar {
-            SettingsCardRow(title: "Show in menu bar", indent: Theme.Spacing.lg) {
+            SettingsCardRow(title: String(localized: "Show in menu bar"), indent: Theme.Spacing.lg) {
                 Toggle(
                     "Show in menu bar",
                     isOn: Binding(
@@ -568,7 +571,9 @@ private struct ExtensionRefreshRow: View {
 
     var body: some View {
         let info = core.extensions.backgroundInfo(extension: extensionName, command: command.name)
-        SettingsCardRow(title: "Background refresh", detail: detail(for: info), indent: indent) {
+        SettingsCardRow(
+            title: String(localized: "Background refresh"), detail: detail(for: info), indent: indent
+        ) {
             Toggle(
                 "",
                 isOn: Binding(
@@ -604,7 +609,10 @@ private struct ExtensionLauncherRow: View {
     var body: some View {
         let entries = installed.manifest.commands.map(installed.launcherEntry)
         let visibleCount = entries.count(where: visibility.isItemVisible)
-        SettingsCardRow(title: "Show in launcher", detail: detail(visible: visibleCount, of: entries.count)) {
+        SettingsCardRow(
+            title: String(localized: "Show in launcher"),
+            detail: detail(visible: visibleCount, of: entries.count)
+        ) {
             // A closure, not `set: setVisible`: an actor-isolated method as a setter crashes IRGen.
             Toggle(
                 "",
@@ -618,9 +626,9 @@ private struct ExtensionLauncherRow: View {
 
     private func detail(visible: Int, of total: Int) -> String? {
         switch visible {
-        case 0: "Hidden. Shortcuts still work."
+        case 0: String(localized: "Hidden. Shortcuts still work.")
         case total: nil
-        default: "\(visible) of \(total) commands."
+        default: String(localized: "\(visible) of \(total) commands.")
         }
     }
 }
@@ -638,7 +646,7 @@ private struct ExtensionIconRow: View {
 
     var body: some View {
         SettingsCardRow(
-            title: "Launcher icon",
+            title: String(localized: "Launcher icon"),
             detail: appearance == nil ? nil : "Custom icon."
         ) {
             HStack(spacing: Theme.Spacing.md) {
@@ -796,10 +804,10 @@ private struct ExtensionImportPanel: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
-            ExtensionSettingsEditorHeader(title: "Import from Raycast", subtitle: subtitle)
+            ExtensionSettingsEditorHeader(title: String(localized: "Import from Raycast"), subtitle: subtitle)
 
             if candidates.count > 6 {
-                SettingsFilterField(prompt: "Filter…", query: $filter)
+                SettingsFilterField(prompt: String(localized: "Filter…"), query: $filter)
             }
 
             ScrollView {
@@ -869,10 +877,11 @@ private struct ExtensionImportPanel: View {
 
     private var subtitle: String {
         guard !candidates.isEmpty else {
-            return "No built extensions found in ~/.config/raycast/extensions."
+            return String(localized: "No built extensions found in ~/.config/raycast/extensions.")
         }
         guard !fresh.isEmpty else {
-            return "Everything Raycast has built is already here. Import one again to update it."
+            return String(
+                localized: "Everything Raycast has built is already here. Import one again to update it.")
         }
         let count = fresh.count == 1 ? "one" : "\(fresh.count)"
         return "The \(count) you don't have yet \(fresh.count == 1 ? "is" : "are") already ticked. "

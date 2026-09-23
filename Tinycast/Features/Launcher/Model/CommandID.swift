@@ -46,46 +46,46 @@ enum CommandID: String, CaseIterable, Sendable {
 
     var name: String {
         switch self {
-        case .quickAI: return "Quick AI"
-        case .aiChat: return "AI Chat"
+        case .quickAI: return String(localized: "Quick AI")
+        case .aiChat: return String(localized: "AI Chat")
         case .fixGrammar: return BuiltInQuickAction.fixGrammar.title
         case .rewrite: return BuiltInQuickAction.rewrite.title
         case .translate: return BuiltInQuickAction.translate.title
         case .summarize: return BuiltInQuickAction.summarize.title
-        case .calculatorHistory: return "Calculator History"
-        case .clipboardHistory: return "Clipboard History"
-        case .searchEmoji: return "Search Emoji & Symbols"
-        case .searchFiles: return "Search Files"
-        case .searchMenuItems: return "Search Menu Bar Items"
-        case .switchWindows: return "Switch Windows"
-        case .openCamera: return "Open Camera"
-        case .openInBrowser: return "Open in Browser"
-        case .runShellCommand: return "Run Shell Command"
-        case .define: return "Define Word"
-        case .joinNextMeeting: return "Join Next Meeting"
-        case .mySchedule: return "My Schedule"
-        case .createEvent: return "Create Event"
-        case .copyMeetingLink: return "Copy Meeting Link"
-        case .openInCalendar: return "Open in Calendar"
-        case .showNotes: return "Show Notes"
-        case .createNote: return "Create Note"
-        case .searchNotes: return "Search Notes"
-        case .createWindowLayout: return "Create Window Layout"
-        case .captureWindowLayout: return "Create Layout from Current Windows"
-        case .createQuicklink: return "Create Quicklink"
-        case .searchQuicklinks: return "Search Quicklinks"
-        case .importQuicklinks: return "Import Quicklinks"
-        case .exportQuicklinks: return "Export Quicklinks"
-        case .searchSnippets: return "Search Snippets"
-        case .createSnippet: return "Create Snippet"
-        case .exportSettings: return "Export Backup"
-        case .importSettings: return "Import Backup"
-        case .importFromRaycast: return "Import from Raycast"
-        case .checkForUpdates: return "Check for Updates"
-        case .settings: return "Tinycast Settings"
-        case .about: return "About Tinycast"
-        case .support: return "Support Tinycast"
-        case .quit: return "Quit Tinycast"
+        case .calculatorHistory: return String(localized: "Calculator History")
+        case .clipboardHistory: return String(localized: "Clipboard History")
+        case .searchEmoji: return String(localized: "Search Emoji & Symbols")
+        case .searchFiles: return String(localized: "Search Files")
+        case .searchMenuItems: return String(localized: "Search Menu Bar Items")
+        case .switchWindows: return String(localized: "Switch Windows")
+        case .openCamera: return String(localized: "Open Camera")
+        case .openInBrowser: return String(localized: "Open in Browser")
+        case .runShellCommand: return String(localized: "Run Shell Command")
+        case .define: return String(localized: "Define Word")
+        case .joinNextMeeting: return String(localized: "Join Next Meeting")
+        case .mySchedule: return String(localized: "My Schedule")
+        case .createEvent: return String(localized: "Create Event")
+        case .copyMeetingLink: return String(localized: "Copy Meeting Link")
+        case .openInCalendar: return String(localized: "Open in Calendar")
+        case .showNotes: return String(localized: "Show Notes")
+        case .createNote: return String(localized: "Create Note")
+        case .searchNotes: return String(localized: "Search Notes")
+        case .createWindowLayout: return String(localized: "Create Window Layout")
+        case .captureWindowLayout: return String(localized: "Create Layout from Current Windows")
+        case .createQuicklink: return String(localized: "Create Quicklink")
+        case .searchQuicklinks: return String(localized: "Search Quicklinks")
+        case .importQuicklinks: return String(localized: "Import Quicklinks")
+        case .exportQuicklinks: return String(localized: "Export Quicklinks")
+        case .searchSnippets: return String(localized: "Search Snippets")
+        case .createSnippet: return String(localized: "Create Snippet")
+        case .exportSettings: return String(localized: "Export Backup")
+        case .importSettings: return String(localized: "Import Backup")
+        case .importFromRaycast: return String(localized: "Import from Raycast")
+        case .checkForUpdates: return String(localized: "Check for Updates")
+        case .settings: return String(localized: "Tinycast Settings")
+        case .about: return String(localized: "About Tinycast")
+        case .support: return String(localized: "Support Tinycast")
+        case .quit: return String(localized: "Quit Tinycast")
         }
     }
 
