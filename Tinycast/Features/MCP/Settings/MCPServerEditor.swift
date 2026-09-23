@@ -18,7 +18,7 @@ struct MCPServerEditor: View {
         case stdio
 
         var id: String { rawValue }
-        var title: String { self == .http ? "HTTP" : "Command" }
+        var title: String { self == .http ? String(localized: "HTTP") : String(localized: "Command") }
     }
 
     private enum Probe: Equatable {

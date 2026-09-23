@@ -699,7 +699,7 @@ private struct ExtensionPreferenceRow: View {
     private var detail: String? {
         let description = schema.description ?? ""
         guard schema.required else { return description }
-        return description.isEmpty ? "Required." : description + " Required."
+        return description.isEmpty ? String(localized: "Required.") : description + " Required."
     }
 
     @ViewBuilder
@@ -891,7 +891,8 @@ private struct ExtensionImportPanel: View {
     private func detail(for candidate: RaycastImportCandidate) -> String {
         let count = candidate.installed.manifest.commands.count
         let commands = "\(count) command\(count == 1 ? "" : "s")"
-        return candidate.isInstalled ? "\(commands) · installed — tick to update" : commands
+        return candidate.isInstalled
+            ? String(localized: "\(commands) · installed — tick to update") : commands
     }
 
     private func binding(for candidate: RaycastImportCandidate) -> Binding<Bool> {

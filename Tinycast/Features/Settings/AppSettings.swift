@@ -20,7 +20,8 @@ enum PopToRootTimeout: Int, CaseIterable, Identifiable, Sendable {
     var id: Int { rawValue }
 
     var title: String {
-        self == .immediately ? "Immediately" : "After \(rawValue) seconds"
+        self == .immediately
+            ? String(localized: "Immediately") : String(localized: "After \(rawValue) seconds")
     }
 
     var interval: TimeInterval { TimeInterval(rawValue) }
@@ -36,7 +37,9 @@ enum JoinWindow: Int, CaseIterable, Identifiable, Sendable {
 
     var id: Int { rawValue }
 
-    var title: String { rawValue == 1 ? "1 minute" : "\(rawValue) minutes" }
+    var title: String {
+        rawValue == 1 ? String(localized: "1 minute") : String(localized: "\(rawValue) minutes")
+    }
 }
 
 /// How early the calendar item picks the next event up. Zero, which `integer(forKey:)` also
@@ -50,7 +53,9 @@ enum MenuBarEvents: Int, CaseIterable, Identifiable, Sendable {
 
     var id: Int { rawValue }
 
-    var title: String { self == .today ? "Today" : "\(rawValue) minutes before" }
+    var title: String {
+        self == .today ? String(localized: "Today") : String(localized: "\(rawValue) minutes before")
+    }
 }
 
 /// The calendar's independent menu-bar presence. Zero matches an unset preference.

@@ -221,7 +221,8 @@ private struct CalendarPickerSection: View {
 
     private var emptyMessage: String {
         if !query.isEmpty { return String(localized: "No matches for “\(query)”.") }
-        return store.access == .granted ? "No calendars on this Mac." : "Nothing to show yet."
+        return store.access == .granted
+            ? String(localized: "No calendars on this Mac.") : String(localized: "Nothing to show yet.")
     }
 }
 

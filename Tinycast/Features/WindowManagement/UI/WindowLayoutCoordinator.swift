@@ -160,11 +160,16 @@ final class WindowLayoutCoordinator {
         }
         if !outcome.neverAppeared.isEmpty {
             let count = outcome.neverAppeared.count
-            parts.append(count == 1 ? "1 app didn't open" : "\(count) apps didn't open")
+            parts.append(
+                count == 1
+                    ? String(localized: "1 app didn't open") : String(localized: "\(count) apps didn't open"))
         }
         let failed = outcome.openFailures.count
         if failed > 0 {
-            parts.append(failed == 1 ? "1 app couldn't open" : "\(failed) apps couldn't open")
+            parts.append(
+                failed == 1
+                    ? String(localized: "1 app couldn't open")
+                    : String(localized: "\(failed) apps couldn't open"))
         }
         return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }

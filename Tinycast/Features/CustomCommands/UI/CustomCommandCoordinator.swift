@@ -293,7 +293,9 @@ final class CustomCommandCoordinator {
         case .launchFailed: return String(localized: "The shell could not be started.")
         case .stopped: return String(localized: "Stopped")
         case .exited(let status):
-            return status == 0 ? "Finished successfully." : "The command exited with status \(status)."
+            return status == 0
+                ? String(localized: "Finished successfully.")
+                : String(localized: "The command exited with status \(status).")
         }
     }
 

@@ -24,11 +24,13 @@ enum MCPOAuth {
             case .clientRequired:
                 return String(
                     localized:
-                        "Enter a registered client ID. This server cannot register Tinycast automatically.")
+                        "Enter a registered client ID. This server cannot register Tinycast automatically."
+                )
             case .issuerChanged:
                 return String(
                     localized:
-                        "The authorization server changed. Enter client credentials for the new server.")
+                        "The authorization server changed. Enter client credentials for the new server."
+                )
             case .invalidCallback: return String(localized: "The sign-in response could not be verified.")
             case .denied: return String(localized: "Sign-in was declined.")
             case .invalidToken:
@@ -42,7 +44,8 @@ enum MCPOAuth {
                     localized: "Client registration failed. Enter a registered client ID and try again.")
             case .listenerUnavailable:
                 return String(
-                    localized: "Sign-in could not open loopback port 4962. Close the app using it and retry.")
+                    localized:
+                        "Sign-in could not open loopback port 4962. Close the app using it and retry.")
             case .signInInProgress:
                 return String(localized: "Another sign-in is still waiting. Finish it first.")
             case .timedOut: return String(localized: "Sign-in timed out. Try again.")

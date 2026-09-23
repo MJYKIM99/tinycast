@@ -123,8 +123,9 @@ struct WindowLayout: Codable, Hashable, Identifiable, Sendable {
     /// The settings row's subtitle: what this layout actually does, in one line.
     var summary: String {
         let displays = Set(entries.map(\.display.uuid)).count
-        let windows = entries.count == 1 ? "1 window" : "\(entries.count) windows"
-        return displays > 1 ? "\(windows) · \(displays) displays" : windows
+        let windows =
+            entries.count == 1 ? String(localized: "1 window") : String(localized: "\(entries.count) windows")
+        return displays > 1 ? String(localized: "\(windows) · \(displays) displays") : windows
     }
 
     var entryID: String { Self.entryIDPrefix + id.uuidString.lowercased() }

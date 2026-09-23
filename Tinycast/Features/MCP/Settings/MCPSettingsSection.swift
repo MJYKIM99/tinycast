@@ -115,7 +115,7 @@ private struct MCPServerRow: View {
 
     /// The slug leads, because it is the half a reader has to type into the composer.
     private var subtitle: String {
-        let state = server.isEnabled ? status.label : "Disabled"
+        let state = server.isEnabled ? status.label : String(localized: "Disabled")
         return "@\(server.slug) · \(state) · \(server.transport.summary)"
     }
 }

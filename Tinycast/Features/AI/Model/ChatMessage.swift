@@ -120,7 +120,7 @@ struct ChatToolUse: Equatable, Hashable, Sendable {
     let sequence: Int
 
     var label: String {
-        let verb = state == .running ? "Calling" : "Called"
+        let verb = state == .running ? String(localized: "Calling") : String(localized: "Called")
         return origin.isEmpty ? "\(verb) \(title)" : "\(verb) \(origin) · \(title)"
     }
 }
